@@ -459,8 +459,9 @@ function tick(){
  $('st').className='status '+cls;$('stw').textContent=w;$('sts').textContent=s;
  $('stp').textContent='Alle valutaparen';
  $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
- if(nextH){$('cdl').textContent='Tot '+L(nextH)+' · '+DAYN[nextH.t.getDay()]+' '+nextH.t.getDate()+' '+MON[nextH.t.getMonth()]+' '+hm(nextH.t)+(nextH.cur!=='ALL'?' · '+nextH.cur:'');$('cd').textContent=fmtDur(+nextH.t-now)}
- else{$('cdl').textContent='Nog geen hoog nieuws in de kalender van Forex Factory';$('cd').textContent='--:--:--'}
+ const nx2=nextH||R.find(e=>e.imp==='m'&&!e.info&&+e.t>now)||R.find(e=>e.imp==='l'&&!e.info&&+e.t>now);
+ if(nx2){const lvl={h:'hoog',m:'middel',l:'laag'}[nx2.imp];$('cdl').textContent=(nextH?'Tot ':'Er staat nog geen hoog nieuws in de kalender. Het eerstvolgende nieuws ('+lvl+') is ')+nx2.name+', '+DAYL[nx2.t.getDay()]+' '+nx2.t.getDate()+' '+MON[nx2.t.getMonth()]+' om '+hm(nx2.t)+(nx2.cur!=='ALL'?' ('+nx2.cur+')':'')+'.';$('cd').textContent=fmtDur(+nx2.t-now)}
+ else{$('cdl').textContent='Er staat nog geen nieuws in de kalender van Forex Factory. Dit wordt in het weekend aangevuld.';$('cd').textContent='--:--:--'}
  alerts(R,now);
  if(nowD.getSeconds()===0){renderLists();if(nowD.getHours()===0&&nowD.getMinutes()===0){build();renderStrip()}}
 }
