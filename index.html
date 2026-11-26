@@ -182,7 +182,7 @@ a{color:var(--blue)}
         <div class="hours" id="hrs"></div>
         <div class="now" id="nowl"></div>
       </div>
-      <div class="legend"><span><i style="background:var(--s0)"></i>Tokio</span><span><i style="background:var(--s1)"></i>Londen</span><span><i style="background:var(--s2)"></i>New York</span><span><i style="background:var(--red);border-radius:50%"></i>Hoog</span><span><i style="background:var(--mid);border-radius:50%"></i>Middel</span><span><i style="background:var(--low);border-radius:50%"></i>Laag</span><span>Drukste uren: 14:00–17:00</span></div>
+      <div class="legend"><span><i style="background:var(--s0)"></i>Tokio</span><span><i style="background:var(--s1)"></i>Londen</span><span><i style="background:var(--s2)"></i>New York</span><span><i style="background:var(--red);border-radius:50%"></i>Hoog</span><span><i style="background:var(--mid);border-radius:50%"></i>Middel</span><span><i style="background:var(--low);border-radius:50%"></i>Laag</span><span>Drukste uren van 14:00 tot 17:00</span></div>
     </section>
   </div>
   <section class="card sect" style="margin-top:18px">
@@ -211,7 +211,7 @@ a{color:var(--blue)}
   <div class="card sect" id="rank" style="padding-block:10px"></div>
   <h2 style="margin:26px 0 12px">Per munt</h2>
   <div class="grid2" id="coins"></div>
-  <p class="note">Sterkte = hoeveel een munt gemiddeld steeg of daalde tegen de andere 7 munten. Koersen van de Europese Centrale Bank, elke werkdag bijgewerkt. Bijgewerkt: <b id="fxat"></b>.</p>
+  <p class="note">Sterkte betekent hoeveel een munt gemiddeld steeg of daalde tegen de andere 7 munten. De koersen komen van de Europese Centrale Bank en worden elke werkdag bijgewerkt, voor het laatst op <b id="fxat"></b>.</p>
 </section>
 
 <!-- RENTE -->
@@ -219,7 +219,7 @@ a{color:var(--blue)}
   <h2>Rente per valuta</h2>
   <p class="lead">Geld stroomt meestal naar valuta's met een hogere of stijgende rente. Koop je de munt met de hoogste rente tegen een munt met een lage rente, dan krijg je meestal swap. Doe je het andersom, dan betaal je swap.</p>
   <div class="card sect" id="rates" style="padding-block:6px"></div>
-  <p class="note">Wordt elke dag automatisch bijgewerkt bij de centrale banken zelf. Bijgewerkt: <b id="rat">26 nov 2026</b>.</p>
+  <p class="note">De rentes worden elke dag automatisch bijgewerkt bij de centrale banken zelf, voor het laatst op <b id="rat">26 nov 2026</b>.</p>
 </section>
 
 <!-- PAREN -->
@@ -234,17 +234,17 @@ a{color:var(--blue)}
   <div class="cols">
     <section class="panel">
       <h2>Meldingen</h2>
-      <p class="note" style="margin-top:0">Meldingen gaan vanzelf: een piep 30 minuten vóór hoog nieuws en op het moment zelf. Het stoplicht staat van 30 minuten vóór tot 30 minuten ná hoog nieuws op rood, en op roze als er binnen 4 uur hoog nieuws komt. Je browser laat geluid pas toe na één klik, daarom staat bovenaan de knop "Geluid aanzetten". Druk daar één keer op als je de pagina opent, en houd de pagina open.</p>
-      <p class="note">De pagina toont het nieuws voor alle valuta's: USD, EUR, GBP, JPY, AUD, CAD, CHF en NZD.</p>
+      <p class="note" style="margin-top:0">Meldingen gaan vanzelf. Je hoort een piep 30 minuten vóór hoog nieuws en op het moment zelf. Het stoplicht staat van 30 minuten vóór tot 30 minuten ná hoog nieuws op rood, en op roze als er binnen 4 uur hoog nieuws komt. Je browser laat geluid pas toe na één klik, daarom staat bovenaan de knop "Geluid aanzetten". Druk daar één keer op als je de pagina opent, en houd de pagina open.</p>
+      <p class="note">De pagina toont het nieuws voor alle valuta's, namelijk USD, EUR, GBP, JPY, AUD, CAD, CHF en NZD.</p>
     </section>
     <section class="panel">
       <h2>Nieuws van Forex Factory</h2>
-      <p class="note" style="margin-top:0">Alle cijfers, in dezelfde kleuren als Forex Factory: rood = hoge impact, oranje = middel, geel = laag. Met de verwachte en vorige waarde. Je hoeft zelf niets in te voeren.</p>
-      <p class="note">Nu ingeladen: <b id="ffinfo"></b>.</p>
+      <p class="note" style="margin-top:0">Alle cijfers staan erin, in dezelfde kleuren als op Forex Factory. Rood betekent hoge impact, oranje middel en geel laag. Bij elk cijfer staan de verwachte en de vorige waarde, en een uitleg van wat het meestal met de koers doet. Je hoeft zelf niets in te voeren.</p>
+      <p class="note">Er zijn nu <b id="ffinfo"></b>.</p>
     </section>
     <section class="panel">
       <h2>Over deze pagina</h2>
-      <p class="note" style="margin-top:0">Alles wordt vanzelf bijgewerkt: elke ochtend rond 06:17 en op werkdagen ook 's middags rond 16:47 (in de zomer een uur later). Al het nieuws, alle rentebesluiten en feestdagen komen van Forex Factory: verandert daar een datum of tijd, dan verandert die hier ook. Forex Factory kijkt deze week en volgende week vooruit. De rentes komen van de centrale banken zelf (die van Japan en Nieuw-Zeeland via Forex Factory) en de koersen van de ECB. Door de middagupdate staan de koersen van die dag er al in. De Bank of Japan heeft geen vaste tijd, dus daar houdt het stoplicht een ruime marge aan.</p>
+      <p class="note" style="margin-top:0">Alles wordt vanzelf bijgewerkt, elke ochtend rond 06:17 en op werkdagen ook 's middags rond 16:47 (in de zomer een uur later). Al het nieuws, alle rentebesluiten en feestdagen komen van Forex Factory. Als daar een datum of tijd verandert, verandert die hier ook. Forex Factory kijkt deze week en volgende week vooruit. De rentes komen van de centrale banken zelf (die van Japan en Nieuw-Zeeland via Forex Factory) en de koersen van de ECB. Door de middagupdate staan de koersen van die dag er al in. De Bank of Japan heeft geen vaste tijd, dus daar houdt het stoplicht een ruime marge aan.</p>
       <p class="note">Onverwacht nieuws (een plotselinge uitspraak, ingrijpen van een centrale bank, geopolitiek) zit er niet in. Bescherm je daartegen met een stop-loss, en zet voor directe meldingen de meldingen van de Forex Factory-app aan. Live meelezen kan op <a href="https://www.forexfactory.com/news">Forex Factory News</a>.</p>
       <p class="note">Dit is een hulpmiddel, geen financieel advies.</p>
     </section>
@@ -267,10 +267,10 @@ const BANKS=[
  {c:'JPY',b:'Bank of Japan',k:'BoJ',r:1.25,last:'gelijk op 30 okt'},
  {c:'CHF',b:'Zwitserse Nationale Bank',k:'SNB',r:0,last:'gelijk op 24 sep'}];
 const CORR=[
- {t:'Alles tegen de dollar',p:['EUR/USD','GBP/USD','AUD/USD','NZD/USD'],d:'Als de dollar zwakker wordt, stijgen deze vier meestal tegelijk. AUD/USD en NZD/USD bewegen bijna altijd samen.',ex:'EUR/USD kopen en GBP/USD kopen = twee keer dezelfde gok op een zwakkere dollar.'},
- {t:'Spiegelbeeld van groep 1',p:['USD/CHF','USD/CAD','USD/JPY'],d:'Hier staat de dollar vooraan. Ze bewegen dus meestal tegengesteld aan groep 1.',ex:'EUR/USD kopen en USD/CHF verkopen = ook twee keer dezelfde trade.'},
- {t:'Yen-paren',p:['USD/JPY','EUR/JPY','GBP/JPY'],d:'Ze bewegen vaak samen, vooral als de yen zelf in beweging komt (bijvoorbeeld rond de Bank of Japan of bij onrust op de markt).',ex:'EUR/JPY en GBP/JPY tegelijk kopen = dubbel risico op een sterkere yen.'},
- {t:'Grondstofvaluta\'s',p:['AUD/USD','NZD/USD','USD/CAD'],d:'AUD en NZD volgen vaak de stemming op de markt en de grondstofprijzen. De Canadese dollar volgt vooral de olieprijs.',ex:'Stijgt olie, dan daalt USD/CAD vaak.'}];
+ {t:'Alles tegen de dollar',p:['EUR/USD','GBP/USD','AUD/USD','NZD/USD'],d:'Als de dollar zwakker wordt, stijgen deze vier meestal tegelijk. AUD/USD en NZD/USD bewegen bijna altijd samen.',ex:'Als je EUR/USD en GBP/USD allebei koopt, gok je twee keer op een zwakkere dollar.'},
+ {t:'Spiegelbeeld van groep 1',p:['USD/CHF','USD/CAD','USD/JPY'],d:'Hier staat de dollar vooraan. Ze bewegen dus meestal tegengesteld aan groep 1.',ex:'Als je EUR/USD koopt en USD/CHF verkoopt, doe je eigenlijk twee keer dezelfde trade.'},
+ {t:'Yen-paren',p:['USD/JPY','EUR/JPY','GBP/JPY'],d:'Ze bewegen vaak samen, vooral als de yen zelf in beweging komt (bijvoorbeeld rond de Bank of Japan of bij onrust op de markt).',ex:'Als je EUR/JPY en GBP/JPY tegelijk koopt, loop je dubbel risico als de yen sterker wordt.'},
+ {t:'Grondstofvaluta\'s',p:['AUD/USD','NZD/USD','USD/CAD'],d:'AUD en NZD volgen vaak de stemming op de markt en de grondstofprijzen. De Canadese dollar volgt vooral de olieprijs.',ex:'Als de olieprijs stijgt, daalt USD/CAD vaak.'}];
 const PAIRS=['EUR/USD','GBP/USD','USD/JPY','EUR/GBP','EUR/JPY','GBP/JPY','AUD/USD','USD/CAD','USD/CHF','NZD/USD'];
 const FF0={at:'26 nov 2026',items:[{"title":"French Flash Manufacturing PMI","country":"EUR","date":"2026-11-23T03:15:00-05:00","impact":"Medium","forecast":"49.8","previous":"49.3"},{"title":"French Flash Services PMI","country":"EUR","date":"2026-11-23T03:15:00-05:00","impact":"Medium","forecast":"47.4","previous":"48.4"},{"title":"German Flash Manufacturing PMI","country":"EUR","date":"2026-11-23T03:30:00-05:00","impact":"Medium","forecast":"54.1","previous":"54.2"},{"title":"German Flash Services PMI","country":"EUR","date":"2026-11-23T03:30:00-05:00","impact":"Medium","forecast":"52.4","previous":"51.7"},{"title":"Flash Manufacturing PMI","country":"GBP","date":"2026-11-23T04:30:00-05:00","impact":"Medium","forecast":"53.0","previous":"52.8"},{"title":"Flash Services PMI","country":"GBP","date":"2026-11-23T04:30:00-05:00","impact":"Medium","forecast":"53.0","previous":"53.1"},{"title":"Flash Manufacturing PMI","country":"USD","date":"2026-11-23T09:45:00-05:00","impact":"Medium","forecast":"54.5","previous":"56.0"},{"title":"Flash Services PMI","country":"USD","date":"2026-11-23T09:45:00-05:00","impact":"Medium","forecast":"55.6","previous":"57.9"},{"title":"CB Consumer Confidence","country":"USD","date":"2026-11-24T10:00:00-05:00","impact":"Medium","forecast":"92.4","previous":"91.7"},{"title":"BOC Gov Macklem Speaks","country":"CAD","date":"2026-11-24T12:25:00-05:00","impact":"Medium","forecast":"","previous":""},{"title":"CPI m/m","country":"AUD","date":"2026-11-24T19:30:00-05:00","impact":"High","forecast":"0.4%","previous":"0.8%"},{"title":"CPI y/y","country":"AUD","date":"2026-11-24T19:30:00-05:00","impact":"High","forecast":"4.7%","previous":"4.3%"},{"title":"Trimmed Mean CPI m/m","country":"AUD","date":"2026-11-24T19:30:00-05:00","impact":"High","forecast":"0.3%","previous":"0.3%"},{"title":"Core PCE Price Index m/m","country":"USD","date":"2026-11-25T08:30:00-05:00","impact":"High","forecast":"0.3%","previous":"0.3%"},{"title":"Prelim GDP q/q","country":"USD","date":"2026-11-25T08:30:00-05:00","impact":"High","forecast":"3.5%","previous":"3.4%"},{"title":"Prelim GDP Price Index q/q","country":"USD","date":"2026-11-25T08:30:00-05:00","impact":"Medium","forecast":"2.3%","previous":"2.3%"},{"title":"Monetary Policy Report Hearings","country":"GBP","date":"2026-11-25T09:15:00-05:00","impact":"Medium","forecast":"","previous":""},{"title":"Tokyo Core CPI y/y","country":"JPY","date":"2026-11-26T18:30:00-05:00","impact":"Medium","forecast":"3.0%","previous":"2.6%"}]};
 
@@ -289,48 +289,46 @@ const hm=dt=>pad(dt.getHours())+':'+pad(dt.getMinutes());
 const DAYN=['zo','ma','di','wo','do','vr','za'],DAYL=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
 const MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
 const EXPL=[
- [/holiday/i,'Feestdag: weinig handel in deze valuta, spreads kunnen breder zijn.'],
- [/inflation expectations/i,'Wat mensen of bedrijven verwachten dat de prijzen gaan doen. Hoger dan verwacht: valuta meestal sterker.'],
- [/core pce|pce price/i,'Inflatie die de Fed het belangrijkst vindt. Hoger dan verwacht: valuta meestal sterker.'],
- [/cpi|inflation|inflatie|hicp/i,'Inflatie. Hoger dan verwacht: valuta meestal sterker, omdat de rente dan langer hoog blijft.'],
- [/ppi|producer price/i,'Prijzen voor producenten, een voorbode van inflatie. Hoger dan verwacht: valuta meestal iets sterker.'],
- [/import price|export price/i,'Prijzen van in- of uitgevoerde spullen. Raakt de inflatie: hoger dan verwacht geeft meestal een iets sterkere valuta.'],
- [/non-farm|nfp|banenrapport/i,'Banenrapport VS, een van de grootste bewegers. Meer banen dan verwacht: dollar meestal sterker.'],
- [/unemployment claims|jobless|werkloosheidsaanvragen/i,'Nieuwe werkloosheidsaanvragen. Meer dan verwacht: dollar meestal zwakker.'],
- [/unemployment rate|claimant/i,'Werkloosheid. Hoger dan verwacht: valuta meestal zwakker.'],
- [/employment change|jolts|job openings|adp/i,'Banencijfer. Meer banen dan verwacht: valuta meestal sterker.'],
- [/earnings|wage|labor cost|labour cost/i,'Lonen. Snellere loonstijging zorgt voor inflatie: valuta meestal sterker.'],
- [/gdp/i,'Economische groei. Hoger dan verwacht: valuta meestal sterker.'],
- [/empire state|philly fed|richmond|kansas city|chicago pmi/i,'Regionale index van de Amerikaanse industrie. Hoger dan verwacht: dollar iets sterker.'],
- [/pmi|ism/i,'Inkoopmanagers-index. Boven 50 groeit de economie, onder 50 krimpt ze. Hoger dan verwacht: valuta meestal sterker.'],
- [/retail sales|retail/i,'Winkelverkopen: hoeveel consumenten uitgeven. Hoger dan verwacht: valuta meestal sterker.'],
- [/personal spending|personal income|household spending|consumer spending/i,'Uitgaven of inkomen van huishoudens. Hoger dan verwacht: valuta meestal iets sterker.'],
- [/industrial production|manufacturing production|factory orders|durable goods|machinery orders|manufacturing sales/i,'Productie of bestellingen van de industrie. Hoger dan verwacht: valuta meestal iets sterker.'],
- [/capital expenditure|capex|business investment/i,'Investeringen van bedrijven. Hoger dan verwacht laat een sterke economie zien: valuta meestal iets sterker.'],
- [/building|housing|home sales|house price|hpi|construction|mortgage|starts/i,'Woningmarkt of bouw. Hoger dan verwacht: valuta meestal iets sterker. Meestal weinig invloed.'],
- [/fpc/i,'Commissie van de Bank of England die let op de stabiliteit van banken (niet de rente). Meestal weinig invloed.'],
- [/minutes|notulen|meeting accounts|accounts/i,'Notulen van de vorige rentevergadering. Kan hints geven over de volgende stap.'],
- [/rentebesluit|cash rate|bank rate|overnight rate|policy rate|funds rate|refinancing rate|deposit facility|monetary policy statement|policy statement/i,'Rentebesluit. Hogere rente of strengere woorden: valuta meestal sterker.'],
- [/speaks|testif|press conference|hearing|persconferentie/i,'Toespraak of hoorzitting. Eén zin kan de koers plots laten bewegen.'],
- [/confidence|sentiment|zew|ifo|gfk|consumer climate|tankan|nfib|outlook/i,'Vertrouwen van consumenten of bedrijven. Hoger dan verwacht: valuta meestal iets sterker.'],
- [/trade balance|current account|exports|imports/i,'Handelsbalans: verschil tussen export en import. Meer export dan verwacht: valuta meestal iets sterker.'],
- [/money supply|m3|m2|private loans|lending|credit/i,'Hoeveel geld er in omloop is of wordt geleend. Meestal weinig invloed op de koers.'],
- [/budget|borrowing|fiscal|debt/i,'Overheidsfinanciën. Meestal weinig invloed, tenzij het heel anders uitvalt dan verwacht.'],
- [/auction/i,'Veiling van staatsleningen. Weinig vraag kan de rente en de valuta laten schommelen.'],
- [/bulletin|financial stability|report|review/i,'Rapport van een centrale bank of overheid. Meestal weinig invloed, tenzij er een onverwachte waarschuwing in staat.'],
- [/summit|meeting|election|vote|g7|g20|opec/i,'Overleg of stemming. Alleen invloed als er onverwacht nieuws uitkomt.'],
- [/crude oil|natural gas/i,'Voorraden olie of gas in de VS. Raakt vooral de Canadese dollar.'],
- [/leading index|leading indicators/i,'Voorspeller van de economie voor de komende maanden. Meestal weinig invloed.'],
- [/beige book/i,'Rapport van de Fed over hoe het gaat met de economie per regio. Meestal weinig invloed.'],
- [/business climate|economic expectations|cbi/i,'Verwachtingen of vertrouwen van bedrijven of economen. Hoger dan verwacht: valuta meestal iets sterker.'],
- [/corporate profits/i,'Winst van bedrijven. Meestal weinig invloed op de koers.'],
- [/fpc statement/i,'Verklaring van de Bank of England over de stabiliteit van banken. Meestal weinig invloed.'],
- [/payrolls/i,'Banencijfer. Meer banen dan verwacht: valuta meestal sterker.'],
- [/inventories|wholesale/i,'Voorraden of groothandel. Meestal weinig invloed.']
+ [/holiday/i,'Het is een feestdag, dus er wordt weinig gehandeld in deze valuta en de spreads kunnen breder zijn.'],
+ [/inflation expectations/i,'Dit laat zien hoeveel mensen of bedrijven verwachten dat de prijzen gaan stijgen. Als het hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
+ [/core pce|pce price/i,'Dit is de inflatie die de Fed het belangrijkst vindt. Als het hoger uitvalt dan verwacht, wordt de dollar meestal sterker.'],
+ [/cpi|inflation|inflatie|hicp/i,'Dit is de inflatie, dus hoe snel de prijzen stijgen. Als het hoger uitvalt dan verwacht, wordt de valuta meestal sterker, omdat de rente dan langer hoog blijft.'],
+ [/ppi|producer price/i,'Dit zijn de prijzen die bedrijven betalen en vragen, een voorbode van inflatie. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/import price|export price/i,'Dit zijn de prijzen van spullen die het land in- of uitvoert, en die hebben invloed op de inflatie. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/non-farm|nfp|banenrapport/i,'Dit is het Amerikaanse banenrapport, een van de grootste koersbewegers. Als er meer banen bij komen dan verwacht, wordt de dollar meestal sterker.'],
+ [/unemployment claims|jobless|werkloosheidsaanvragen/i,'Dit is het aantal nieuwe werkloosheidsaanvragen in de VS. Als het er meer zijn dan verwacht, wordt de dollar meestal zwakker.'],
+ [/unemployment rate|claimant/i,'Dit is de werkloosheid. Als die hoger uitvalt dan verwacht, wordt de valuta meestal zwakker.'],
+ [/employment change|jolts|job openings|adp|payrolls/i,'Dit cijfer laat zien hoeveel banen erbij komen. Als het er meer zijn dan verwacht, wordt de valuta meestal sterker.'],
+ [/earnings|wage|labor cost|labour cost/i,'Dit laat zien hoe snel de lonen stijgen. Snellere loonstijging zorgt voor inflatie, en dan wordt de valuta meestal sterker.'],
+ [/gdp/i,'Dit is de economische groei. Als die hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
+ [/empire state|philly fed|richmond|kansas city|chicago pmi/i,'Dit is een index van de industrie in een deel van de VS. Als die hoger uitvalt dan verwacht, wordt de dollar meestal iets sterker.'],
+ [/pmi|ism/i,'Dit is de inkoopmanagersindex. Boven de 50 groeit de economie en onder de 50 krimpt ze. Als het cijfer hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
+ [/retail sales|retail/i,'Dit laat zien hoeveel consumenten in winkels uitgeven. Als het hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
+ [/personal spending|personal income|household spending|consumer spending/i,'Dit gaat over de uitgaven of het inkomen van huishoudens. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/industrial production|manufacturing production|factory orders|durable goods|machinery orders|manufacturing sales/i,'Dit laat zien hoeveel de industrie produceert of aan bestellingen binnenkrijgt. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/capital expenditure|capex|business investment/i,'Dit laat zien hoeveel bedrijven investeren. Als het hoger uitvalt dan verwacht, wijst dat op een sterke economie en wordt de valuta meestal iets sterker.'],
+ [/building|housing|home sales|house price|hpi|construction|mortgage|starts/i,'Dit gaat over de woningmarkt of de bouw. Het heeft meestal weinig invloed, maar een hoger cijfer dan verwacht maakt de valuta soms iets sterker.'],
+ [/fpc/i,'Dit komt van een commissie van de Bank of England die let op de veiligheid van banken, niet op de rente. Het heeft meestal weinig invloed.'],
+ [/minutes|notulen|meeting accounts|accounts/i,'Dit zijn de notulen van de vorige rentevergadering. Ze kunnen laten zien wat de centrale bank hierna van plan is.'],
+ [/rentebesluit|cash rate|bank rate|overnight rate|policy rate|funds rate|refinancing rate|deposit facility|monetary policy statement|policy statement/i,'Dit is een rentebesluit, een van de grootste koersbewegers. Als de rente omhoog gaat of de bank strenger klinkt, wordt de valuta meestal sterker.'],
+ [/speaks|testif|press conference|hearing|persconferentie/i,'Hier geeft iemand van een centrale bank of de overheid een toespraak. Eén onverwachte zin kan de koers plots laten bewegen.'],
+ [/beige book/i,'Dit is een rapport van de Fed over hoe het met de economie gaat in de verschillende regio\'s van de VS. Het heeft meestal weinig invloed.'],
+ [/business climate|economic expectations|cbi/i,'Dit laat zien hoe bedrijven of economen over de economie denken. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/confidence|sentiment|zew|ifo|gfk|consumer climate|tankan|nfib|outlook/i,'Dit laat zien hoeveel vertrouwen consumenten of bedrijven hebben. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/corporate profits/i,'Dit is de winst van bedrijven. Het heeft meestal weinig invloed op de koers.'],
+ [/trade balance|current account|exports|imports/i,'Dit is het verschil tussen wat een land uitvoert en invoert. Als de uitvoer groter is dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/money supply|m3|m2|private loans|lending|credit/i,'Dit laat zien hoeveel geld er in omloop is of wordt geleend. Het heeft meestal weinig invloed op de koers.'],
+ [/budget|borrowing|fiscal|debt/i,'Dit gaat over de geldzaken van de overheid. Het heeft meestal weinig invloed, tenzij het heel anders uitvalt dan verwacht.'],
+ [/auction/i,'Hier verkoopt de overheid staatsleningen. Als er weinig vraag naar is, kunnen de rente en de valuta gaan schommelen.'],
+ [/bulletin|financial stability|report|review/i,'Dit is een rapport van een centrale bank of de overheid. Het heeft meestal weinig invloed, tenzij er een onverwachte waarschuwing in staat.'],
+ [/summit|meeting|election|vote|g7|g20|opec/i,'Hier overleggen leiders of wordt er gestemd. Dit heeft alleen invloed als er onverwacht nieuws uit komt.'],
+ [/crude oil|natural gas/i,'Dit zijn de voorraden olie of gas in de VS. Dit raakt vooral de Canadese dollar.'],
+ [/leading index|leading indicators/i,'Dit cijfer probeert te voorspellen hoe de economie de komende maanden gaat. Het heeft meestal weinig invloed.'],
+ [/inventories|wholesale/i,'Dit gaat over voorraden of de groothandel. Het heeft meestal weinig invloed.']
 ];
-const BYIMP={h:'Belangrijk cijfer: kan de koers flink bewegen, vooral als het afwijkt van de verwachting.',m:'Kan de koers wat laten bewegen, vooral als het sterk afwijkt van de verwachting.',l:'Meestal weinig invloed op de koers.'};
+const BYIMP={h:'Dit is belangrijk nieuws dat de koers flink kan bewegen, vooral als het anders uitvalt dan verwacht.',m:'Dit nieuws kan de koers wat laten bewegen, vooral als het sterk afwijkt van de verwachting.',l:'Dit nieuws heeft meestal weinig invloed op de koers.'};
 
-const expl=(n,imp)=>{let t='';for(const [r,x] of EXPL)if(r.test(n)){t=x;break}if(!t)t=BYIMP[imp]||'';if(/^(final|revised)/i.test(n))t='Definitief cijfer: wijkt meestal weinig af van de eerste schatting. '+t;else if(/^(prelim|flash|advance)/i.test(n))t='Eerste schatting. '+t;return t};
+const expl=(n,imp)=>{let t='';for(const [r,x] of EXPL)if(r.test(n)){t=x;break}if(!t)t=BYIMP[imp]||'';if(/^(final|revised)/i.test(n))t='Dit is het definitieve cijfer, dat meestal weinig afwijkt van de eerste schatting. '+t;else if(/^(prelim|flash|advance)/i.test(n))t='Dit is een eerste schatting. '+t;return t};
 const HOLD=()=>4*36e5,DAY=24*36e5;
 
 let evs=[],ses=[];
@@ -342,24 +340,24 @@ function build(){
   const s=addDays(today,k),w=wd(s),hol=HOL[s];
   if(w>=1&&w<=5){
    ses.push({n:0,a:zt(s,TOK,9,0),b:zt(s,TOK,18,0)},{n:1,a:zt(s,LON,8,0),b:zt(s,LON,17,0)},{n:2,a:zt(s,NY,8,0),b:zt(s,NY,17,0)});
-   add(s,LON,8,0,'Londen opent','ALL','l',{note:'Meer volume en grotere bewegingen'});
-   add(s,NY,8,0,'New York opent','ALL','l',{note:'Overlap met Londen: drukste uren van de dag'});
+   add(s,LON,8,0,'Londen opent','ALL','l',{note:'Er wordt nu meer gehandeld en de koersen bewegen meer.'});
+   add(s,NY,8,0,'New York opent','ALL','l',{note:'Londen en New York zijn nu allebei open, dit zijn de drukste uren van de dag.'});
    const nx=addDays(s,w===5?3:1),monthEnd=nx.slice(5,7)!==s.slice(5,7);
-   if(monthEnd)add(s,LON,16,0,'Maandeinde-fix Londen','ALL','m',{wb:30,wa:15,note:'Grote orders van fondsen, koers kan plots draaien'});
-   if(w===5)add(s,NY,17,0,'Forex sluit voor het weekend','ALL','m',{wb:120,wa:0,wk:1,note:'Houd je een positie het weekend vast? Reken op een koersgat maandag'});
-   else add(s,NY,17,0,w===3?'Drievoudige swap':'Rollover (swap)','ALL',w===3?'m':'l',{wb:15,wa:15,note:w===3?'Swap van 3 dagen wordt nu verrekend: let op als je positie swap kost':'Swap wordt verrekend, spreads even breed'});
+   if(monthEnd)add(s,LON,16,0,'Maandeinde-fix Londen','ALL','m',{wb:30,wa:15,note:'Grote fondsen plaatsen dan veel orders, waardoor de koers plots kan draaien.'});
+   if(w===5)add(s,NY,17,0,'Forex sluit voor het weekend','ALL','m',{wb:120,wa:0,wk:1,note:'Als je een positie het weekend vasthoudt, kan de koers maandag met een gat openen.'});
+   else add(s,NY,17,0,w===3?'Drievoudige swap':'Rollover (swap)','ALL',w===3?'m':'l',{wb:15,wa:15,note:w===3?'De swap van 3 dagen wordt nu verrekend. Let hierop als je positie swap kost.':'De swap wordt verrekend en de spreads zijn even breder.'});
   }
-  if(w===0)add(s,NY,17,0,'Forex opent (nieuwe week)','ALL','m',{wb:0,wa:60,op:1,note:'Brede spreads, kans op koersgat. Check eerst je open posities'});
+  if(w===0)add(s,NY,17,0,'Forex opent (nieuwe week)','ALL','m',{wb:0,wa:60,op:1,note:'De spreads zijn nu breed en de koers kan met een gat openen. Kijk eerst naar je open posities.'});
  }
  (ff.items||[]).forEach(it=>{
   const t=new Date(it.date);
-  if(it.impact==='Holiday'&&!isNaN(t)){const k=localYmd(t);if(!HOL[k])HOL[k]='Feestdag ('+String(it.country)+'): weinig handel in die valuta';return}
+  if(it.impact==='Holiday'&&!isNaN(t)){const k=localYmd(t);if(!HOL[k])HOL[k]='Het is een feestdag voor '+String(it.country)+', dus er wordt weinig gehandeld in die valuta';return}
   const imp=it.impact==='High'?'h':it.impact==='Medium'?'m':it.impact==='Low'?'l':null;
   if(isNaN(t)||!imp||!it.country)return;
-  const fc=[it.forecast?'verwacht '+it.forecast:'',it.previous?'vorige '+it.previous:''].filter(Boolean).join(', ');
+  const fc=[it.forecast?'verwacht '+it.forecast:'',it.previous?(it.forecast?'en de vorige keer was het ':'meldt dat het de vorige keer ')+it.previous+(it.forecast?'':' was'):''].filter(Boolean).join(' ');
   const RB={USD:['Fed',/Federal Funds Rate/],EUR:['ECB',/Main Refinancing Rate|Deposit Facility Rate/],GBP:['BoE',/Official Bank Rate/],JPY:['BoJ',/BOJ Policy Rate/],AUD:['RBA',/Cash Rate/],CAD:['BoC',/Overnight Rate/],CHF:['SNB',/SNB Policy Rate/],NZD:['RBNZ',/Official Cash Rate/]}[it.country];
   const bk=RB&&RB[1].test(it.title)?RB[0]:undefined;
-  evs.push(Object.assign({t,name:String(it.title),cur:String(it.country),imp,ff:1,fc,bk},bk==='BoJ'?{wb:150,wa:90,note:'De Bank of Japan heeft geen vaste tijd: het besluit komt meestal tussen 3:30 en 6:00 NL-tijd.'}:{}));
+  evs.push(Object.assign({t,name:String(it.title),cur:String(it.country),imp,ff:1,fc,bk},bk==='BoJ'?{wb:150,wa:90,note:'De Bank of Japan heeft geen vaste tijd. Het besluit komt meestal tussen 3:30 en 6:00 Nederlandse tijd.'}:{}));
  });
  evs.sort((a,b)=>a.t-b.t);
 }
@@ -371,7 +369,7 @@ function fmtDur(ms){const s=Math.max(0,Math.floor(ms/1000));const d=Math.floor(s
 const when=(t,now)=>{const m=Math.round((t-now)/6e4);return m<60?'over '+m+' min':localYmd(t)===localYmd(new Date(now))?'om '+hm(t):DAYN[t.getDay()]+' '+hm(t)};
 const holdTxt=()=>'4 uur';
 
-function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||(e.info?'':expl(e.name,e.imp));const extra=[x,e.fc?'Forex Factory: '+e.fc:''].filter(Boolean).join(' · ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
+function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||(e.info?'':expl(e.name,e.imp));const extra=[x,e.fc?'Forex Factory '+e.fc+'.':''].filter(Boolean).join(' ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
 function renderLists(){
  const now=Date.now(),td=localYmd(new Date());
  const t=evs.filter(e=>rel(e)&&localYmd(e.t)===td);
@@ -396,7 +394,7 @@ function renderCoins(){
  if(!fx||!fx.dates||fx.dates.length<2)return;
  const C=chg(mper),order=CUR8.slice().sort((a,b)=>C[b]-C[a]),max=Math.max(...order.map(c=>Math.abs(C[c])),0.01);
  [...$('mp').children].forEach(b=>b.setAttribute('aria-pressed',+b.dataset.p===mper));
- $('mlead').textContent='Sterkste munt over '+PL[mper]+': '+CN[order[0]]+' ('+order[0]+'). Zwakste: '+CN[order[7]]+' ('+order[7]+'). Een sterke munt kopen tegen een zwakke werkt bij swing vaak beter dan twee munten die gelijk staan.';
+ $('mlead').textContent='De sterkste munt over '+PL[mper]+' is de '+CN[order[0]]+' ('+order[0]+') en de zwakste is de '+CN[order[7]]+' ('+order[7]+'). Bij swing werkt het vaak beter om een sterke munt te kopen tegen een zwakke munt dan twee munten die gelijk staan.';
  $('rank').innerHTML=order.map(c=>{const v=C[c],w=Math.abs(v)/max*50;return `<div class="rk"><span class="c">${c}</span><span class="track"><i class="${v>=0?'p':'n'}" style="width:${w}%"></i></span><span class="v ${v>=0?'pos':'neg'}">${pf(v)}</span></div>`}).join('');
  const n=fx.dates.length,series=[...Array(n).keys()].map(strength),W=strength(n-1);
  const c1=chg(1),c7=chg(7),c30=chg(30),c91=chg(91),wk=order,PN={1:'vandaag',7:'deze week',30:'deze maand',91:'3 maanden'}[mper];
@@ -411,13 +409,14 @@ function renderCoins(){
   return `<div class="grp coin"><div class="top"><div><div class="code">${c}</div><div class="name">${CN[c]}</div></div><span class="rank ${r===1?'best':r===8?'worst':''}">#${r} ${PN}</span></div>
   <svg viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,64 ${pts} 300,64" fill="${col}" fill-opacity=".12" stroke="none"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
   <div class="chg">${[['Dag',c1],['Week',c7],['Maand',c30],['3 mnd',c91]].map(([l,o])=>`<div><small>${l}</small><b class="${o[c]>=0?'pos':'neg'}">${pf(o[c])}</b></div>`).join('')}</div>
-  <p class="say">${say}</p>${b?`<p class="meta">Rente ${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'} · ${esc(b.last)}${nx?' · volgende besluit '+DAYN[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]:''}</p>`:''}</div>`}).join('');
+  <p class="say">${say}</p>${b?`<p class="meta">De rente is ${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'}. ${esc(lastTxt(b.last))}${nx?' Het volgende besluit is op '+DAYL[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]+'.':''}</p>`:''}</div>`}).join('');
  const d=new Date(fx.dates[n-1]+'T12:00');$('fxat').textContent=d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();
 }
+function lastTxt(t){t=String(t||'');let m=t.match(/^([+-][\d,]+) op (\d+ \w+)(.*)$/);if(m)return 'De rente ging '+(m[1][0]==='+'?'omhoog':'omlaag')+' met '+m[1].slice(1)+' procentpunt op '+m[2]+m[3]+'.';m=t.match(/^gelijk op (\d+ \w+)(.*)$/);if(m)return 'De rente bleef gelijk op '+m[1]+m[2]+'.';return t?t.charAt(0).toUpperCase()+t.slice(1)+'.':''}
 function renderRates(){
  const now=Date.now(),max=5;
- $('rates').innerHTML=BANKS.map(b=>{const nx=evs.find(e=>e.bk===b.k&&+e.t>now);const up=/^\+/.test(b.last);return `<div class="rt"><span class="c">${b.c}<small>${b.k}</small></span><span class="bar"><i style="width:${Math.max(1.5,b.r/max*100)}%"></i></span><span class="v">${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'}</span><span class="info">Laatste besluit: <span class="${up?'up':'eq'}">${b.last}</span> · Volgende: ${nx?DAYN[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]+' '+nx.t.getFullYear()+' om '+hm(nx.t):'staat nog niet in de kalender van Forex Factory'}</span></div>`}).join('');
- $('corr').innerHTML='<div class="grid2">'+CORR.map((g,i)=>`<div class="grp"><h3><span>${i+1}</span>${g.t}</h3><div class="chips">${g.p.map(p=>`<span class="pill">${p}</span>`).join('')}</div><p>${g.d}</p><p class="ex">${g.ex}</p></div>`).join('')+'</div><p class="note">Vuistregel: heb je al een trade open, kijk dan of je nieuwe paar in dezelfde groep zit. Zo ja, neem een kleinere positie of kies een paar uit een andere groep.</p>';
+ $('rates').innerHTML=BANKS.map(b=>{const nx=evs.find(e=>e.bk===b.k&&+e.t>now);const up=/^\+/.test(b.last);return `<div class="rt"><span class="c">${b.c}<small>${b.k}</small></span><span class="bar"><i style="width:${Math.max(1.5,b.r/max*100)}%"></i></span><span class="v">${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'}</span><span class="info">${esc(lastTxt(b.last))} ${nx?'Het volgende besluit is op '+DAYL[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]+' '+nx.t.getFullYear()+' om '+hm(nx.t)+'.':'Het volgende besluit staat nog niet in de kalender van Forex Factory.'}</span></div>`}).join('');
+ $('corr').innerHTML='<div class="grid2">'+CORR.map((g,i)=>`<div class="grp"><h3><span>${i+1}</span>${g.t}</h3><div class="chips">${g.p.map(p=>`<span class="pill">${p}</span>`).join('')}</div><p>${g.d}</p><p class="ex">${g.ex}</p></div>`).join('')+'</div><p class="note">Heb je al een trade open, kijk dan of je nieuwe paar in dezelfde groep zit. Als dat zo is, neem dan een kleinere positie of kies een paar uit een andere groep.</p>';
 }
 function renderStrip(){
  const d0=new Date();d0.setHours(0,0,0,0);const s0=+d0,L=864e5,pc=t=>Math.min(100,Math.max(0,(t-s0)/L*100));
@@ -439,7 +438,7 @@ function tick(){
  const isC=closed(nowD);
  $('sess').textContent=isC?'forex is dicht':open.length?'open: '+open.join(', ')+(open.includes('Londen')&&open.includes('New York')?' (drukste uren)':''):'rustig tussen de sessies';
  const td=localYmd(nowD);
- if(HOL[td]){$('hol').style.display='block';$('hol').textContent='Vandaag: '+HOL[td]}else $('hol').style.display='none';
+ if(HOL[td]){$('hol').style.display='block';$('hol').textContent=HOL[td]+'.'}else $('hol').style.display='none';
  const ffMax=Math.max(0,...(ff.items||[]).map(x=>+new Date(x.date)||0));
  if(ffMax<now){$('ffold').style.display='block';$('ffold').textContent='Het nieuws van Forex Factory is nog niet bijgewerkt voor deze week. Herlaad de pagina straks.'}else $('ffold').style.display='none';
  const R=evs.filter(rel),H=HOLD();
@@ -449,14 +448,14 @@ function tick(){
  const wk=R.find(e=>e.wk&&+e.t>now&&+e.t-now<12*36e5);
  const day=R.filter(e=>e.imp==='h'&&+e.t>now&&+e.t-now<DAY);
  const nextH=R.find(e=>e.imp==='h'&&+e.t>now);
- let cls='ok',w='Rustig',s='Geen hoog nieuws in de komende 4 uur.';
+ let cls='ok',w='Rustig',s='Er komt geen hoog nieuws in de komende 4 uur.';
  if(isC){cls='dicht';w='Markt dicht';const o=R.find(e=>e.op&&+e.t>now);s=o?'Forex opent weer '+DAYL[o.t.getDay()]+' om '+hm(o.t)+'.':''}
  else if(stop){cls='stop';w='Geen nieuwe trade';s=L(stop)+' ('+hm(stop.t)+'). Open niets tot '+hm(new Date(win(stop)[1]))+' en check de stop-loss van open posities.'}
- else if(inHold.length){cls='let';w='Let op';const f=inHold[0];s='Binnen '+holdTxt()+': '+L(f)+' ('+when(f.t,now)+')'+(inHold.length>1?' en nog '+(inHold.length-1)+' meer':'')+'. Een trade die je nu opent, loopt daar doorheen.'}
+ else if(inHold.length){cls='let';w='Let op';const f=inHold[0];s='Binnen '+holdTxt()+' komt '+L(f)+' ('+when(f.t,now)+')'+(inHold.length>1?' en nog '+(inHold.length-1)+' ander hoog nieuws':'')+'. Een trade die je nu opent, loopt daar doorheen.'}
  else if(wk){cls='let';w='Let op';s='Forex sluit '+when(wk.t,now)+' voor het weekend. Houd je een trade langer vast, dan loop je het risico op een koersgat maandag.'}
  else if(med){cls='let';w='Let op';s=L(med)+(med.note?': '+med.note.toLowerCase():'')+'.'}
- else if(HOL[td]){cls='let';w='Let op';s='Dunne markt: spreads kunnen breder zijn.'}
- if(!isC&&cls!=='stop'){const later=day.filter(e=>!inHold.includes(e));if(later.length)s+=' Komende 24 uur: '+later.slice(0,3).map(e=>L(e)+' ('+when(e.t,now)+')').join(', ')+'.';else if(!inHold.length)s+=' Ook de komende 24 uur geen hoog nieuws.'}
+ else if(HOL[td]){cls='let';w='Let op';s='Er wordt vandaag weinig gehandeld, dus de spreads kunnen breder zijn.'}
+ if(!isC&&cls!=='stop'){const later=day.filter(e=>!inHold.includes(e));if(later.length)s+=' In de komende 24 uur komt ook '+later.slice(0,3).map(e=>L(e)+' ('+when(e.t,now)+')').join(', ')+'.';else if(!inHold.length)s+=' Ook in de komende 24 uur komt er geen hoog nieuws.'}
  $('st').className='status '+cls;$('stw').textContent=w;$('sts').textContent=s;
  $('stp').textContent='Alle valutaparen';
  $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
@@ -479,7 +478,7 @@ window.addEventListener('hashchange',show);
 /* events */
 $('wf').addEventListener('click',ev=>{const b=ev.target.closest('[data-f]');if(!b)return;wfil=b.dataset.f;ls.set('fxw-wf',wfil);renderLists()});
 $('snd').addEventListener('click',ev=>{try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume();beep(1);ev.target.textContent='Geluid staat aan';try{window.Notification&&Notification.requestPermission().catch(()=>{})}catch(e){}}catch(e){ev.target.textContent='Geluid werkt hier niet'}});
-const ffInfo=()=>{$('ffinfo').textContent=(ff.items||[]).length+' berichten (bijgewerkt '+ff.at+')'};
+const ffInfo=()=>{$('ffinfo').textContent=(ff.items||[]).length+' berichten ingeladen, voor het laatst bijgewerkt op '+ff.at};
 
 const ro=new ResizeObserver(renderStrip);ro.observe($('rows'));
 build();ffInfo();renderRates();renderCoins();
