@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forex-waarschuwingen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE calm, premium trading-desk app
+   IDEA a desk traffic light: groen rustig, roze let op, rood geen trade
+   PICTURE the big status card with countdown, beside a 24-hour timeline of sessions and news
+   COLOUR white / deep ink night; green #1fa463, pink #ff5fa2, red #e5484d; sessions in three soft hues
+   TYPE Manrope 800 for figures + Manrope
+   LAYOUT app bar, pill tabs, status left + timeline right; stacked on phone */
+:root{color-scheme:light dark;--bg:light-dark(#fff6fa,#140c12);--card:light-dark(#ffffff,#1e141b);--ink:light-dark(#2a1222,#fbeaf3);--soft:light-dark(#8a6478,#b39aa8);--line:light-dark(#f5dce8,#3a2533);--panel:light-dark(#fdf0f6,#2a1b25);--grn:#1fa463;--pink:#ff4f9a;--mid:#f5871f;--low:#f2c200;--red:#e5484d;--blue:light-dark(#d6337f,#ff8cc0);--s0:light-dark(#ead7ff,#5a3880);--s1:light-dark(#ffc6de,#a33a72);--s2:light-dark(#ff94c2,#e0549a);--shadow:0 1px 2px rgba(120,20,70,.05),0 10px 28px rgba(200,40,120,.08)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+.band{padding:clamp(16px,2.5vw,28px) max(4vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:clamp(24px,3vw,30px);line-height:1.1;letter-spacing:-.02em;margin:0;font-weight:800;display:flex;align-items:center;gap:10px}
+h1::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--grn);box-shadow:18px 0 0 var(--pink),36px 0 0 var(--red);margin-right:38px}
+h2{font-size:20px;margin:0 0 12px;letter-spacing:-.01em;font-weight:800}
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.clock{color:var(--soft);font-size:14px;font-weight:600}
+.clock b{color:var(--ink);font-size:18px;font-variant-numeric:tabular-nums;margin-right:4px}
+nav{position:sticky;top:0;z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+nav{padding:6px max(4vw,16px) 10px}
+nav .wrap{overflow-x:auto}
+nav .tabs{display:inline-flex;gap:4px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+nav a{flex:none;display:flex;align-items:center;min-height:42px;padding:0 16px;font-weight:700;font-size:15px;color:var(--soft);text-decoration:none;border-radius:10px}
+nav a:hover{color:var(--ink)}
+nav a[aria-current=page]{color:#fff;background:linear-gradient(135deg,#ff6fae,#d6337f)}
+nav a .badge{margin-left:8px;width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:0 0 0 2px #fff}
+.view{display:none}.view.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+button:focus-visible,nav a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:18px}
+.status{border-radius:24px;padding:26px;color:#0f172a;display:flex;flex-direction:column;gap:8px;min-height:300px;transition:background .4s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.status::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.22)}
+.status.ok{background:linear-gradient(150deg,#d4f5e2,#a9e9c6)}
+.status.let{background:linear-gradient(150deg,#ffd1e4,#ff9cc6)}
+.status.stop{background:linear-gradient(150deg,#ff7a7e,#e5484d);color:#fff}
+.status.dicht{background:linear-gradient(150deg,#e2e8f0,#cbd5e1)}
+.st-pairs{font-size:13px;font-weight:700;opacity:.75;display:inline-flex;align-items:center;gap:8px}
+.st-pairs::before{content:"";width:10px;height:10px;border-radius:50%;background:currentColor;opacity:.8;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.st-word{font-size:clamp(40px,6vw,60px);font-weight:800;line-height:1;letter-spacing:-.035em}
+.st-sub{font-size:16px;font-weight:600;line-height:1.5;max-width:34em;position:relative;z-index:1}
+.cd{margin-top:auto;background:rgba(255,255,255,.45);border-radius:16px;padding:12px 16px;position:relative;z-index:1}
+.status.stop .cd{background:rgba(0,0,0,.14)}
+.cd small{display:block;font-size:13px;font-weight:600;opacity:.8}
+.cd b{font-size:clamp(30px,4.5vw,42px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
+.strip{padding:20px;display:flex;flex-direction:column}
+.strip h2{font-size:17px}
+.rows{position:relative;flex:1;display:grid;grid-template-rows:repeat(4,minmax(38px,1fr)) 24px;gap:8px;background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 12.5%);background-size:100% calc(100% - 32px);background-repeat:no-repeat}
+.row{position:relative;border-radius:10px;background:color-mix(in srgb,var(--panel) 70%,transparent)}
+.row>span.lab{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:800;color:var(--ink);z-index:2;background:var(--card);padding:1px 7px;border-radius:6px;opacity:.9}
+.ses{position:absolute;top:5px;bottom:5px;border-radius:8px}
+.ses.s0{background:var(--s0)}.ses.s1{background:var(--s1)}.ses.s2{background:var(--s2)}
+.tick{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:3px solid var(--card)}
+.tick.h{background:var(--red)}.tick.m{background:var(--mid)}.tick.l{background:var(--low)}
+.hours{position:relative}
+.hours span{position:absolute;transform:translateX(-50%);font-size:12px;font-weight:600;color:var(--soft);font-variant-numeric:tabular-nums}
+.now{position:absolute;top:-4px;bottom:28px;width:2px;background:var(--pink);z-index:3;border-radius:2px}
+.now::after{content:"nu";position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;background:var(--pink);color:#fff;padding:1px 6px;border-radius:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--soft);margin-top:12px;font-weight:600}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-1px;margin-right:6px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.sect{padding:20px 22px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:4px 14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.list li:last-child{border-bottom:0}
+.list .t{font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.list .n{font-weight:700}
+.list .n small{display:block;font-weight:500;color:var(--soft);font-size:14px;margin-top:2px}
+.list li.past{opacity:.4}
+.list li.cur{background:color-mix(in srgb,var(--red) 10%,transparent);border-radius:12px;padding-inline:10px;margin-inline:-10px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.dot.h{background:var(--red)}.dot.m{background:var(--mid)}.dot.l{background:var(--low)}.dot.i{background:var(--line)}
+.tag{font-size:12px;font-weight:800;background:var(--panel);border-radius:6px;padding:1px 7px;margin-left:8px;color:var(--ink);white-space:nowrap}
+.day{font-size:14px;font-weight:800;margin:22px 0 6px;display:inline-block;background:linear-gradient(135deg,#ff6fae,#d6337f);color:#fff;padding:4px 12px;border-radius:999px}
+#next>.day:first-child{margin-top:0}
+#next .list{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:4px 18px;box-shadow:var(--shadow)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+.set{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+button.btn{min-height:44px;padding:0 18px;border-radius:12px;border:0;background:linear-gradient(135deg,#ff6fae,#d6337f);color:#fff;font:700 15px Manrope,sans-serif;cursor:pointer}
+button.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+button.ghost::before{content:"🔔";margin-right:6px}
+.note{color:var(--soft);font-size:14px;margin:10px 0 0;line-height:1.6}
+.empty{color:var(--soft);padding:12px 0}
+.banner{margin:0 0 14px;padding:12px 16px;border-radius:14px;font-weight:700;display:none;background:var(--card);border:1px solid var(--line)}
+.banner.warn{background:light-dark(#ffe1ee,#3d1a2e);color:light-dark(#7a1747,#ffc2dc);border-color:light-dark(#ffc2da,#5c2945)}
+.banner a{color:inherit}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{min-height:38px;padding:0 14px;border:0;background:transparent;color:var(--soft);font:700 14px Manrope,sans-serif;cursor:pointer;border-radius:9px}
+.seg button[aria-pressed=true]{background:linear-gradient(135deg,#ff6fae,#d6337f);color:#fff}
+.rt{display:grid;grid-template-columns:5.5em minmax(0,1fr) max-content;gap:6px 16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.rt:last-child{border:0}
+.rt .c{font-weight:800;font-size:20px}
+.rt .c small{display:block;font-size:12px;font-weight:700;color:var(--soft)}
+.rt .bar{height:14px;border-radius:999px;background:var(--panel);position:relative;overflow:hidden}
+.rt .bar i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#ffb3d4,#ff4f9a);border-radius:999px}
+.rt .v{font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.rt .info{grid-column:2/-1;font-size:14px;color:var(--soft);margin-top:-2px}
+.up{color:var(--blue);font-weight:800}.eq{font-weight:700;color:var(--ink)}
+.rk{display:grid;grid-template-columns:3.2em minmax(0,1fr) 4.6em;gap:12px;align-items:center;padding:8px 0}
+.rk .c{font-weight:800;font-size:17px}
+.rk .track{position:relative;height:22px}
+.rk .track::before{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--line)}
+.rk .track i{position:absolute;top:0;bottom:0;border-radius:6px}
+.rk .track i.p{left:50%;background:linear-gradient(90deg,#9be3bd,#1fa463)}
+.rk .track i.n{right:50%;background:linear-gradient(270deg,#ffb3b5,#e5484d)}
+.rk .v{font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.pos{color:var(--grn)}.neg{color:var(--red)}
+.coin .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.coin .code{font-size:26px;font-weight:800;line-height:1}
+.coin .name{font-size:14px;color:var(--soft);font-weight:600}
+.coin .rank{font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--panel);white-space:nowrap}
+.coin .rank.best{background:#d4f5e2;color:#0f5132}.coin .rank.worst{background:#ffe0e1;color:#8a1f22}
+.coin svg{display:block;width:100%;height:64px;margin:10px 0 6px}
+.chg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.chg div{background:var(--panel);border-radius:10px;padding:6px 8px;text-align:center}
+.chg small{display:block;font-size:12px;color:var(--soft);font-weight:700}
+.chg b{font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.coin .say{font-weight:700;margin:12px 0 0;font-size:15px}
+.coin .meta{font-size:14px;color:var(--soft);margin:4px 0 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.grp h3{margin:0;font-size:17px;font-weight:800}
+.grp h3 span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#ff6fae,#d6337f);color:#fff;font-size:13px;margin-right:8px;vertical-align:1px}
+.grp p{margin:8px 0 0;font-size:15px}
+.grp .chips{margin-top:12px}
+.grp .pill{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:999px;background:var(--panel);font-weight:800;font-size:14px}
+.ex{background:light-dark(#ffe1ee,#3d1a2e);color:light-dark(#7a1747,#ffc2dc);border-radius:12px;padding:10px 12px;margin:12px 0 0!important;font-size:14px!important;font-weight:600}
+.lead{color:var(--soft);font-size:15px;margin:0 0 16px;max-width:60em}
+a{color:var(--blue)}
+@media(max-width:820px){.hero{grid-template-columns:minmax(0,1fr)}.status{min-height:0}}
+@media(max-width:600px){.cols{grid-template-columns:minmax(0,1fr)}.strip{padding:14px}.list .t{font-size:16px}nav a{padding:0 12px;font-size:14px}.status{padding:20px}h1::before{display:none}}
+@media(prefers-reduced-motion:reduce){.status,.view.on,.st-pairs::before{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<div class="band" style="padding-bottom:10px"><div class="wrap top">
+  <h1>Forex-waarschuwingen</h1>
+  <div class="set" style="align-items:center"><div class="clock">Jouw tijd <b id="clk">--:--:--</b> · <span id="sess"></span></div><button class="btn ghost" id="snd" type="button">Geluid aanzetten</button></div>
+</div></div>
+<nav aria-label="Onderdelen"><div class="wrap"><div class="tabs">
+  <a href="#nu" data-v="nu">Nu <span class="badge" id="bdg"></span></a>
+  <a href="#week" data-v="week">Week</a>
+  <a href="#munten" data-v="munten">Munten</a>
+  <a href="#rente" data-v="rente">Rente</a>
+  <a href="#paren" data-v="paren">Paren</a>
+  <a href="#info" data-v="info">Info</a>
+</div></div></nav>
+
+<div class="band"><div class="wrap">
+<div class="banner" id="hol"></div>
+<div class="banner warn" id="ffold"></div>
+
+<!-- NU -->
+<section class="view" id="v-nu">
+  <div class="hero">
+    <section class="status ok" id="st" aria-live="polite">
+      <div class="st-pairs" id="stp"></div>
+      <div class="st-word" id="stw">Rustig</div>
+      <div class="st-sub" id="sts"></div>
+      <div class="cd"><small id="cdl"></small><b id="cd">--:--:--</b></div>
+    </section>
+    <section class="strip card">
+      <h2>Vandaag in 24 uur</h2>
+      <div class="rows" id="rows">
+        <div class="row" id="r0"><span class="lab">Tokio</span></div>
+        <div class="row" id="r1"><span class="lab">Londen</span></div>
+        <div class="row" id="r2"><span class="lab">New York</span></div>
+        <div class="row" id="r3"><span class="lab">Nieuws</span></div>
+        <div class="hours" id="hrs"></div>
+        <div class="now" id="nowl"></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--s0)"></i>Tokio</span><span><i style="background:var(--s1)"></i>Londen</span><span><i style="background:var(--s2)"></i>New York</span><span><i style="background:var(--red);border-radius:50%"></i>Hoog</span><span><i style="background:var(--mid);border-radius:50%"></i>Middel</span><span><i style="background:var(--low);border-radius:50%"></i>Laag</span><span>Drukste uren: 14:00–17:00</span></div>
+    </section>
+  </div>
+  <section class="card sect" style="margin-top:18px">
+    <h2>Vandaag</h2>
+    <ul class="list" id="today"></ul>
+  </section>
+</section>
+
+<!-- WEEK -->
+<section class="view" id="v-week">
+  <div class="set" style="justify-content:space-between;margin-bottom:14px">
+    <h2 style="margin:0">Komende 3 weken</h2>
+    <div class="seg" id="wf"><button type="button" data-f="h" aria-pressed="false">Alleen hoog</button><button type="button" data-f="m" aria-pressed="true">Hoog en middel</button><button type="button" data-f="l" aria-pressed="false">Alles</button></div>
+  </div>
+  <div id="next"></div>
+</section>
+
+
+<!-- MUNTEN -->
+<section class="view" id="v-munten">
+  <div class="set" style="justify-content:space-between;margin-bottom:6px">
+    <h2 style="margin:0">Sterkte per munt</h2>
+    <div class="seg" id="mp"><button type="button" data-p="1" aria-pressed="false">Dag</button><button type="button" data-p="7" aria-pressed="true">Week</button><button type="button" data-p="30" aria-pressed="false">Maand</button><button type="button" data-p="91" aria-pressed="false">3 maanden</button></div>
+  </div>
+  <p class="lead" id="mlead"></p>
+  <div class="card sect" id="rank" style="padding-block:10px"></div>
+  <h2 style="margin:26px 0 12px">Per munt</h2>
+  <div class="grid2" id="coins"></div>
+  <p class="note">Sterkte = hoeveel een munt gemiddeld steeg of daalde tegen de andere 7 munten. Koersen van de Europese Centrale Bank, elke werkdag bijgewerkt. Bijgewerkt: <b id="fxat"></b>.</p>
+</section>
+
+<!-- RENTE -->
+<section class="view" id="v-rente">
+  <h2>Rente per valuta</h2>
+  <p class="lead">Geld stroomt meestal naar valuta's met een hogere of stijgende rente. Koop je de munt met de hoogste rente tegen een munt met een lage rente, dan krijg je meestal swap. Doe je het andersom, dan betaal je swap.</p>
+  <div class="card sect" id="rates" style="padding-block:6px"></div>
+  <p class="note">Wordt elke dag automatisch bijgewerkt bij de centrale banken zelf. Bijgewerkt: <b id="rat">26 nov 2026</b>.</p>
+</section>
+
+<!-- PAREN -->
+<section class="view" id="v-paren">
+  <h2>Paren die samen bewegen</h2>
+  <p class="lead">Paren in dezelfde groep bewegen meestal dezelfde kant op. Twee trades in één groep, in dezelfde richting, zijn eigenlijk één grote trade met dubbel risico.</p>
+  <div id="corr"></div>
+</section>
+
+<!-- INSTELLINGEN -->
+<section class="view" id="v-info">
+  <div class="cols">
+    <section class="panel">
+      <h2>Meldingen</h2>
+      <p class="note" style="margin-top:0">Meldingen gaan vanzelf: een piep 30 minuten vóór hoog nieuws en op het moment zelf. Je browser laat geluid pas toe na één klik, daarom staat bovenaan de knop "Geluid aanzetten". Druk daar één keer op als je de pagina opent, en houd de pagina open.</p>
+      <p class="note">De pagina toont het nieuws voor alle valuta's: USD, EUR, GBP, JPY, AUD, CAD, CHF en NZD.</p>
+    </section>
+    <section class="panel">
+      <h2>Nieuws van Forex Factory</h2>
+      <p class="note" style="margin-top:0">Alle cijfers, in dezelfde kleuren als Forex Factory: rood = hoge impact, oranje = middel, geel = laag. Met de verwachte en vorige waarde. Je hoeft zelf niets in te voeren.</p>
+      <p class="note">Nu ingeladen: <b id="ffinfo"></b>.</p>
+    </section>
+    <section class="panel">
+      <h2>Over deze pagina</h2>
+      <p class="note" style="margin-top:0">Alles wordt elke ochtend vanzelf bijgewerkt: het nieuws en de feestdagen komen van Forex Factory, de rentes van de centrale banken zelf. Daarnaast staan de vaste data van de Fed, de BLS, de ECB, de Bank of England en de Bank of Japan er tot eind 2027 in, zodat je ook verder vooruit kunt kijken. De BoJ heeft geen vaste tijd, dus daar staat een ruime marge.</p>
+      <p class="note">Onverwacht nieuws (een plotselinge uitspraak, geopolitiek) zit er niet in. Dat zie je alleen live, bijvoorbeeld op <a href="https://www.forexfactory.com/news">Forex Factory News</a>.</p>
+      <p class="note">Dit is een hulpmiddel, geen financieel advies.</p>
+    </section>
+  </div>
+</section>
+</div></div>
+
+<script>
+{
+const NY='America/New_York',LON='Europe/London',FRA='Europe/Berlin',TOK='Asia/Tokyo';
+const D={
+ fomc:['2026-12-09','2027-01-27','2027-03-17','2027-04-28','2027-06-09','2027-07-28','2027-09-15','2027-11-17'],
+ cpi:['2026-12-10','2027-01-13','2027-02-11','2027-03-10','2027-04-13','2027-05-12','2027-06-10','2027-07-14','2027-08-11','2027-09-14','2027-10-14','2027-11-10','2027-12-10'],
+ nfp:['2026-12-04','2027-01-08','2027-02-05','2027-03-05','2027-04-02','2027-05-07','2027-06-04','2027-07-02','2027-08-06','2027-09-03','2027-10-08','2027-11-05','2027-12-03'],
+ ecb:['2026-12-17','2027-02-04','2027-03-18','2027-04-29','2027-06-10','2027-07-22','2027-09-09','2027-10-28','2027-12-16'],
+ boe:['2026-12-17','2027-02-04','2027-03-18','2027-04-29','2027-06-17','2027-07-29','2027-09-16','2027-11-04','2027-12-16'],
+ boj:['2026-12-18','2027-01-22','2027-03-18','2027-04-28','2027-06-11','2027-07-22','2027-09-22','2027-10-29','2027-12-17']
+};
+const HOL={'2026-11-26':'Thanksgiving: Amerikaanse markten dicht, weinig handel','2026-11-27':'Dag na Thanksgiving: VS sluit vroeg (19:00 NL), dunne markt','2026-12-24':'Kerstavond: VS sluit vroeg, dunne markt','2026-12-25':'Kerst: bijna geen handel','2026-12-31':'Oudejaarsdag: dunne markt','2027-01-01':'Nieuwjaar: bijna geen handel','2027-01-18':'Martin Luther King Day: VS dicht','2027-02-15':'Presidents Day: VS dicht','2027-03-26':'Goede Vrijdag: veel markten dicht','2027-05-31':'Memorial Day: VS dicht','2027-06-18':'Juneteenth: VS dicht','2027-07-05':'Independence Day: VS dicht','2027-09-06':'Labor Day: VS dicht','2027-11-25':'Thanksgiving: VS dicht','2027-11-26':'Dag na Thanksgiving: VS sluit vroeg','2027-12-24':'Kerst: bijna geen handel','2027-12-31':'Oudejaarsdag: dunne markt'};
+
+const BANKS=[
+ {c:'AUD',b:'Reserve Bank of Australia',k:'RBA',r:4.85,last:'+0,25 op 3 nov'},
+ {c:'GBP',b:'Bank of England',k:'BoE',r:4.00,last:'+0,25 op 5 nov'},
+ {c:'USD',b:'Federal Reserve',k:'Fed',r:3.875,txt:'3,75–4,00%',last:'gelijk op 28 okt (+0,25 in sep)'},
+ {c:'NZD',b:'Reserve Bank of New Zealand',k:'RBNZ',r:2.75,last:'gelijk op 28 okt'},
+ {c:'EUR',b:'Europese Centrale Bank',k:'ECB',r:2.50,last:'gelijk op 29 okt'},
+ {c:'CAD',b:'Bank of Canada',k:'BoC',r:2.50,last:'+0,25 op 28 okt'},
+ {c:'JPY',b:'Bank of Japan',k:'BoJ',r:1.25,last:'gelijk op 30 okt'},
+ {c:'CHF',b:'Zwitserse Nationale Bank',k:'SNB',r:0,last:'gelijk op 24 sep'}];
+const CORR=[
+ {t:'Alles tegen de dollar',p:['EUR/USD','GBP/USD','AUD/USD','NZD/USD'],d:'Als de dollar zwakker wordt, stijgen deze vier meestal tegelijk. AUD/USD en NZD/USD bewegen bijna altijd samen.',ex:'EUR/USD kopen en GBP/USD kopen = twee keer dezelfde gok op een zwakkere dollar.'},
+ {t:'Spiegelbeeld van groep 1',p:['USD/CHF','USD/CAD','USD/JPY'],d:'Hier staat de dollar vooraan. Ze bewegen dus meestal tegengesteld aan groep 1.',ex:'EUR/USD kopen en USD/CHF verkopen = ook twee keer dezelfde trade.'},
+ {t:'Yen-paren',p:['USD/JPY','EUR/JPY','GBP/JPY'],d:'Ze bewegen vaak samen, vooral als de yen zelf in beweging komt (bijvoorbeeld rond de Bank of Japan of bij onrust op de markt).',ex:'EUR/JPY en GBP/JPY tegelijk kopen = dubbel risico op een sterkere yen.'},
+ {t:'Grondstofvaluta\'s',p:['AUD/USD','NZD/USD','USD/CAD'],d:'AUD en NZD volgen vaak de stemming op de markt en de grondstofprijzen. De Canadese dollar volgt vooral de olieprijs.',ex:'Stijgt olie, dan daalt USD/CAD vaak.'}];
+const PAIRS=['EUR/USD','GBP/USD','USD/JPY','EUR/GBP','EUR/JPY','GBP/JPY','AUD/USD','USD/CAD','USD/CHF','NZD/USD'];
+const FF0={at:'26 nov 2026',items:[{"title":"French Flash Manufacturing PMI","country":"EUR","date":"2026-11-23T03:15:00-05:00","impact":"Medium","forecast":"49.8","previous":"49.3"},{"title":"French Flash Services PMI","country":"EUR","date":"2026-11-23T03:15:00-05:00","impact":"Medium","forecast":"47.4","previous":"48.4"},{"title":"German Flash Manufacturing PMI","country":"EUR","date":"2026-11-23T03:30:00-05:00","impact":"Medium","forecast":"54.1","previous":"54.2"},{"title":"German Flash Services PMI","country":"EUR","date":"2026-11-23T03:30:00-05:00","impact":"Medium","forecast":"52.4","previous":"51.7"},{"title":"Flash Manufacturing PMI","country":"GBP","date":"2026-11-23T04:30:00-05:00","impact":"Medium","forecast":"53.0","previous":"52.8"},{"title":"Flash Services PMI","country":"GBP","date":"2026-11-23T04:30:00-05:00","impact":"Medium","forecast":"53.0","previous":"53.1"},{"title":"Flash Manufacturing PMI","country":"USD","date":"2026-11-23T09:45:00-05:00","impact":"Medium","forecast":"54.5","previous":"56.0"},{"title":"Flash Services PMI","country":"USD","date":"2026-11-23T09:45:00-05:00","impact":"Medium","forecast":"55.6","previous":"57.9"},{"title":"CB Consumer Confidence","country":"USD","date":"2026-11-24T10:00:00-05:00","impact":"Medium","forecast":"92.4","previous":"91.7"},{"title":"BOC Gov Macklem Speaks","country":"CAD","date":"2026-11-24T12:25:00-05:00","impact":"Medium","forecast":"","previous":""},{"title":"CPI m/m","country":"AUD","date":"2026-11-24T19:30:00-05:00","impact":"High","forecast":"0.4%","previous":"0.8%"},{"title":"CPI y/y","country":"AUD","date":"2026-11-24T19:30:00-05:00","impact":"High","forecast":"4.7%","previous":"4.3%"},{"title":"Trimmed Mean CPI m/m","country":"AUD","date":"2026-11-24T19:30:00-05:00","impact":"High","forecast":"0.3%","previous":"0.3%"},{"title":"Core PCE Price Index m/m","country":"USD","date":"2026-11-25T08:30:00-05:00","impact":"High","forecast":"0.3%","previous":"0.3%"},{"title":"Prelim GDP q/q","country":"USD","date":"2026-11-25T08:30:00-05:00","impact":"High","forecast":"3.5%","previous":"3.4%"},{"title":"Prelim GDP Price Index q/q","country":"USD","date":"2026-11-25T08:30:00-05:00","impact":"Medium","forecast":"2.3%","previous":"2.3%"},{"title":"Monetary Policy Report Hearings","country":"GBP","date":"2026-11-25T09:15:00-05:00","impact":"Medium","forecast":"","previous":""},{"title":"Tokyo Core CPI y/y","country":"JPY","date":"2026-11-26T18:30:00-05:00","impact":"Medium","forecast":"3.0%","previous":"2.6%"}]};
+
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let sel=new Set(PAIRS);
+let ff=FF0,wfil=ls.get('fxw-wf','m');
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+function off(date,tz){const o={};new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(date).forEach(p=>o[p.type]=p.value);return Date.UTC(+o.year,o.month-1,+o.day,+o.hour%24,+o.minute,+o.second)-date.getTime()}
+function zt(ymd,tz,h,m){const [y,mo,d]=ymd.split('-').map(Number);const base=Date.UTC(y,mo-1,d,h,m);let t=base-off(new Date(base),tz);t=base-off(new Date(t),tz);return new Date(t)}
+function addDays(ymd,n){const [y,m,d]=ymd.split('-').map(Number);const x=new Date(Date.UTC(y,m-1,d+n));return x.getUTCFullYear()+'-'+pad(x.getUTCMonth()+1)+'-'+pad(x.getUTCDate())}
+function wd(ymd){const [y,m,d]=ymd.split('-').map(Number);return new Date(Date.UTC(y,m-1,d)).getUTCDay()}
+const localYmd=dt=>dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
+const hm=dt=>pad(dt.getHours())+':'+pad(dt.getMinutes());
+const DAYN=['zo','ma','di','wo','do','vr','za'],DAYL=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+const MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+const EXPL=[
+ [/core pce|pce price/i,'Inflatie die de Fed het belangrijkst vindt. Hoger dan verwacht: valuta meestal sterker.'],
+ [/cpi|inflation|inflatie|hicp/i,'Inflatie. Hoger dan verwacht: valuta meestal sterker, omdat de rente dan langer hoog blijft.'],
+ [/ppi/i,'Prijzen voor producenten, een voorbode van inflatie.'],
+ [/non-farm|nfp/i,'Banenrapport VS, een van de grootste bewegers. Meer banen dan verwacht: dollar meestal sterker.'],
+ [/unemployment claims|werkloosheidsaanvragen/i,'Nieuwe werkloosheidsaanvragen. Meer dan verwacht: dollar meestal zwakker.'],
+ [/unemployment rate|claimant/i,'Werkloosheid. Hoger dan verwacht: valuta meestal zwakker.'],
+ [/employment change|jolts|adp/i,'Banencijfer. Meer banen dan verwacht: valuta meestal sterker.'],
+ [/gdp/i,'Economische groei. Hoger dan verwacht: valuta meestal sterker.'],
+ [/pmi|ism/i,'Inkoopmanagers-index. Boven 50 groeit de economie, onder 50 krimpt ze.'],
+ [/retail sales/i,'Winkelverkopen: geven aan hoeveel consumenten uitgeven.'],
+ [/minutes|notulen/i,'Notulen van de vorige rentevergadering. Kan hints geven over de volgende stap.'],
+ [/rentebesluit|rate|monetary policy|policy statement|cash rate/i,'Rentebesluit. Hogere rente of strengere woorden: valuta meestal sterker.'],
+ [/speaks|testif|press conference|hearing|persconferentie/i,'Toespraak of hoorzitting. Eén zin kan de koers plots laten bewegen.'],
+ [/confidence|sentiment|zew|ifo/i,'Vertrouwen van consumenten of bedrijven.'],
+ [/trade balance|current account/i,'Handelsbalans: verschil tussen export en import.'],
+ [/crude oil/i,'Olievoorraden VS. Raakt vooral de Canadese dollar.']
+];
+const expl=n=>{for(const [r,t] of EXPL)if(r.test(n))return t;return ''};
+const HOLD=()=>4*36e5,DAY=24*36e5;
+
+let evs=[],ses=[];
+function build(){
+ evs=[];ses=[];
+ const add=(ymd,tz,h,m,name,cur,imp,x={})=>evs.push(Object.assign({t:zt(ymd,tz,h,m),name,cur,imp,info:imp==='l'},x));
+ D.fomc.forEach(s=>{add(s,NY,14,0,'Fed-rentebesluit','USD','h');add(s,NY,14,30,'Persconferentie Fed','USD','h');add(addDays(s,21),NY,14,0,'Notulen Fed','USD','m')});
+ D.cpi.forEach(s=>add(s,NY,8,30,'Inflatie VS (CPI)','USD','h'));
+ D.nfp.forEach(s=>add(s,NY,8,30,'Banenrapport VS (NFP)','USD','h'));
+ D.ecb.forEach(s=>{add(s,FRA,14,15,'ECB-rentebesluit','EUR','h');add(s,FRA,14,45,'Persconferentie ECB','EUR','h')});
+ D.boe.forEach(s=>add(s,LON,12,0,'Bank of England-rentebesluit','GBP','h'));
+ D.boj.forEach(s=>add(s,TOK,12,0,'Bank of Japan-rentebesluit','JPY','h',{wb:150,wa:90,bk:'BoJ',note:'Geen vaste tijd: meestal tussen 3:30 en 6:00 NL-tijd'}));
+ add('2026-12-08','Australia/Sydney',14,30,'Reserve Bank of Australia-rentebesluit','AUD','h',{bk:'RBA'});
+ add('2026-12-09',NY,10,0,'Bank of Canada-rentebesluit','CAD','h',{bk:'BoC'});
+ add('2026-12-10','Europe/Zurich',9,30,'Zwitserse Nationale Bank-rentebesluit','CHF','h',{bk:'SNB'});
+ ['2026-12-09','2027-02-10','2027-03-17','2027-05-05'].forEach(s=>add(s,'Pacific/Auckland',14,0,'Reserve Bank of New Zealand-rentebesluit','NZD','h',{bk:'RBNZ'}));
+ evs.forEach(e=>{if(!e.bk){if(e.name==='Fed-rentebesluit')e.bk='Fed';if(e.name==='ECB-rentebesluit')e.bk='ECB';if(e.name==='Bank of England-rentebesluit')e.bk='BoE'}});
+ const today=localYmd(new Date());
+ for(let k=-1;k<=22;k++){
+  const s=addDays(today,k),w=wd(s),hol=HOL[s];
+  if(w>=1&&w<=5){
+   ses.push({n:0,a:zt(s,TOK,9,0),b:zt(s,TOK,18,0)},{n:1,a:zt(s,LON,8,0),b:zt(s,LON,17,0)},{n:2,a:zt(s,NY,8,0),b:zt(s,NY,17,0)});
+   add(s,LON,8,0,'Londen opent','ALL','l',{note:'Meer volume en grotere bewegingen'});
+   add(s,NY,8,0,'New York opent','ALL','l',{note:'Overlap met Londen: drukste uren van de dag'});
+   const nx=addDays(s,w===5?3:1),monthEnd=nx.slice(5,7)!==s.slice(5,7);
+   if(monthEnd)add(s,LON,16,0,'Maandeinde-fix Londen','ALL','m',{wb:30,wa:15,note:'Grote orders van fondsen, koers kan plots draaien'});
+   if(w===4&&!hol)add(s,NY,8,30,'Werkloosheidsaanvragen VS','USD','m',{wb:5,wa:15});
+   if(w===5)add(s,NY,17,0,'Forex sluit voor het weekend','ALL','m',{wb:120,wa:0,wk:1,note:'Houd je een positie het weekend vast? Reken op een koersgat maandag'});
+   else add(s,NY,17,0,w===3?'Drievoudige swap':'Rollover (swap)','ALL',w===3?'m':'l',{wb:15,wa:15,note:w===3?'Swap van 3 dagen wordt nu verrekend: let op als je positie swap kost':'Swap wordt verrekend, spreads even breed'});
+  }
+  if(w===0)add(s,NY,17,0,'Forex opent (nieuwe week)','ALL','m',{wb:0,wa:60,op:1,note:'Brede spreads, kans op koersgat. Check eerst je open posities'});
+ }
+ (ff.items||[]).forEach(it=>{
+  const t=new Date(it.date);
+  if(it.impact==='Holiday'&&!isNaN(t)){const k=localYmd(t);if(!HOL[k])HOL[k]='Feestdag ('+String(it.country)+'): weinig handel in die valuta';return}
+  const imp=it.impact==='High'?'h':it.impact==='Medium'?'m':it.impact==='Low'?'l':null;
+  if(isNaN(t)||!imp||!it.country)return;
+  const fc=[it.forecast?'verwacht '+it.forecast:'',it.previous?'vorige '+it.previous:''].filter(Boolean).join(', ');
+  const dup=evs.find(e=>e.cur===it.country&&e.imp==='h'&&Math.abs(e.t-t)<6e4&&!e.ff);
+  if(dup&&imp==='h'){if(fc)dup.fc=fc;return}
+  const RB={USD:['Fed',/Federal Funds Rate/],EUR:['ECB',/Main Refinancing Rate|Deposit Facility Rate/],GBP:['BoE',/Official Bank Rate/],JPY:['BoJ',/BOJ Policy Rate/],AUD:['RBA',/Cash Rate/],CAD:['BoC',/Overnight Rate/],CHF:['SNB',/SNB Policy Rate/],NZD:['RBNZ',/Official Cash Rate/]}[it.country];
+  const bk=RB&&RB[1].test(it.title)&&!evs.some(e=>e.bk===RB[0]&&Math.abs(e.t-t)<864e5)?RB[0]:undefined;
+  evs.push({t,name:String(it.title),cur:String(it.country),imp,ff:1,fc,bk});
+ });
+ evs.sort((a,b)=>a.t-b.t);
+}
+const curs=()=>{const c=new Set();sel.forEach(p=>p.split('/').forEach(x=>c.add(x)));return c};
+const rel=e=>true;
+const win=e=>{const B=30,A=30;const wb=e.wb??(e.imp==='h'?B:5),wa=e.wa??(e.imp==='h'?A:10);return [e.t-wb*6e4,+e.t+wa*6e4]};
+function closed(now){const o={};new Intl.DateTimeFormat('en-US',{timeZone:NY,hourCycle:'h23',weekday:'short',hour:'2-digit'}).formatToParts(now).forEach(p=>o[p.type]=p.value);const h=+o.hour%24;return (o.weekday==='Fri'&&h>=17)||o.weekday==='Sat'||(o.weekday==='Sun'&&h<17)}
+function fmtDur(ms){const s=Math.max(0,Math.floor(ms/1000));const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;return (d?d+'d ':'')+pad(h)+':'+pad(m)+':'+pad(x)}
+const when=(t,now)=>{const m=Math.round((t-now)/6e4);return m<60?'over '+m+' min':localYmd(t)===localYmd(new Date(now))?'om '+hm(t):DAYN[t.getDay()]+' '+hm(t)};
+const holdTxt=()=>'4 uur';
+
+function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||expl(e.name);const extra=[x,e.fc?'Forex Factory: '+e.fc:''].filter(Boolean).join(' · ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
+function renderLists(){
+ const now=Date.now(),td=localYmd(new Date());
+ const t=evs.filter(e=>rel(e)&&localYmd(e.t)===td);
+ $('today').innerHTML=t.length?t.map(e=>li(e,now)).join(''):'<li class="empty">Vandaag geen momenten voor je paren.</li>';
+ const end=now+21*864e5,groups={};
+ evs.filter(e=>rel(e)&&(e.imp==='h'||(wfil!=='h'&&e.imp==='m')||(wfil==='l'&&e.imp==='l'&&!e.info))&&win(e)[1]>now&&+e.t<end).forEach(e=>{const k=localYmd(e.t);(groups[k]=groups[k]||[]).push(e)});
+ const ks=Object.keys(groups);
+ $('next').innerHTML=ks.length?ks.map(k=>{const d=new Date(k+'T12:00');return `<p class="day">${k===td?'Vandaag':DAYL[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()]}${HOL[k]?' · '+esc(HOL[k]):''}</p><ul class="list">${groups[k].map(e=>li(e,now)).join('')}</ul>`}).join(''):'<p class="empty">Geen nieuws gevonden.</p>';
+ [...$('wf').children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===wfil));
+}
+const FX0={"at": "26 nov 2026", "dates": ["2026-08-25", "2026-09-14", "2026-09-28", "2026-10-12", "2026-10-26", "2026-11-05", "2026-11-12", "2026-11-19", "2026-11-25", "2026-11-26"], "rates": {"USD": [1.1662, 1.1551, 1.1378, 1.1181, 1.1188, 1.1224, 1.1081, 1.0992, 1.0935, 1.0975], "GBP": [0.8555, 0.85598, 0.85785, 0.84478, 0.8382, 0.83393, 0.83595, 0.83581, 0.8373, 0.83755], "JPY": [185.7, 178.52, 178.5, 177.33, 176.15, 177.85, 176.96, 175.84, 174.22, 174.79], "AUD": [1.6303, 1.6202, 1.6199, 1.6032, 1.5927, 1.6033, 1.6246, 1.6378, 1.6644, 1.654], "CAD": [1.6163, 1.6041, 1.6118, 1.5946, 1.5695, 1.5675, 1.5789, 1.5719, 1.5591, 1.5617], "CHF": [0.9361, 0.9431, 0.9464, 0.9312, 0.9243, 0.918, 0.9232, 0.9262, 0.9085, 0.9153], "NZD": [1.9547, 2.0012, 2.0071, 1.9968, 1.9695, 1.9966, 1.9942, 1.989, 2.0046, 2.0033]}};
+
+let fx=FX0,mper=7;
+const CN={EUR:'Euro',USD:'Amerikaanse dollar',GBP:'Britse pond',JPY:'Japanse yen',AUD:'Australische dollar',CAD:'Canadese dollar',CHF:'Zwitserse frank',NZD:'Nieuw-Zeelandse dollar'};
+const CUR8=['EUR','USD','GBP','JPY','AUD','CAD','CHF','NZD'];
+function strength(i){const r={EUR:1};CUR8.slice(1).forEach(c=>r[c]=fx.rates[c][i]);const o={};CUR8.forEach(c=>{let t=0;CUR8.forEach(x=>{if(x!==c)t+=Math.log(r[x]/r[c])});o[c]=t/7});return o}
+function idxBack(days){const d=fx.dates,last=new Date(d[d.length-1]+'T12:00');const tgt=new Date(+last-days*864e5);let k=0;for(let i=0;i<d.length;i++)if(new Date(d[i]+'T12:00')<=tgt)k=i;return k}
+function chg(days){const n=fx.dates.length-1,a=strength(idxBack(days)),b=strength(n),o={};CUR8.forEach(c=>o[c]=(Math.exp(b[c]-a[c])-1)*100);return o}
+const pf=v=>(v>0?'+':'')+v.toLocaleString('nl-NL',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+const PL={1:'de laatste dag',7:'de afgelopen week',30:'de afgelopen maand',91:'de afgelopen 3 maanden'};
+function renderCoins(){
+ if(!fx||!fx.dates||fx.dates.length<2)return;
+ const C=chg(mper),order=CUR8.slice().sort((a,b)=>C[b]-C[a]),max=Math.max(...order.map(c=>Math.abs(C[c])),0.01);
+ [...$('mp').children].forEach(b=>b.setAttribute('aria-pressed',+b.dataset.p===mper));
+ $('mlead').textContent='Sterkste munt over '+PL[mper]+': '+CN[order[0]]+' ('+order[0]+'). Zwakste: '+CN[order[7]]+' ('+order[7]+'). Een sterke munt kopen tegen een zwakke werkt bij swing vaak beter dan twee munten die gelijk staan.';
+ $('rank').innerHTML=order.map(c=>{const v=C[c],w=Math.abs(v)/max*50;return `<div class="rk"><span class="c">${c}</span><span class="track"><i class="${v>=0?'p':'n'}" style="width:${w}%"></i></span><span class="v ${v>=0?'pos':'neg'}">${pf(v)}</span></div>`}).join('');
+ const n=fx.dates.length,series=[...Array(n).keys()].map(strength),W=strength(n-1);
+ const c1=chg(1),c7=chg(7),c30=chg(30),c91=chg(91),wk=order,PN={1:'vandaag',7:'deze week',30:'deze maand',91:'3 maanden'}[mper];
+ const now=Date.now();
+ $('coins').innerHTML=order.map(c=>{
+  const ys=series.map(s=>s[c]-series[0][c]),mn=Math.min(...ys),mx=Math.max(...ys),rg=(mx-mn)||1;
+  const pts=ys.map((y,i)=>`${(i/(n-1)*300).toFixed(1)},${(58-(y-mn)/rg*52).toFixed(1)}`).join(' ');
+  const up=ys[n-1]>=ys[0],col=up?'#1fa463':'#e5484d';
+  const r=wk.indexOf(c)+1,w=c7[c],m=c30[c];
+  const say=r===1?'Sterkste munt '+PN+'.':r===8?'Zwakste munt '+PN+'.':w>0&&m>0?'Stijgt al een maand.':w<0&&m<0?'Daalt al een maand.':w>0?'Herstelt deze week na een zwakke maand.':'Zakt deze week terug na een sterke maand.';
+  const b=BANKS.find(x=>x.c===c),nx=b&&evs.find(e=>e.bk===b.k&&+e.t>now);
+  return `<div class="grp coin"><div class="top"><div><div class="code">${c}</div><div class="name">${CN[c]}</div></div><span class="rank ${r===1?'best':r===8?'worst':''}">#${r} ${PN}</span></div>
+  <svg viewBox="0 0 300 64" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,64 ${pts} 300,64" fill="${col}" fill-opacity=".12" stroke="none"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
+  <div class="chg">${[['Dag',c1],['Week',c7],['Maand',c30],['3 mnd',c91]].map(([l,o])=>`<div><small>${l}</small><b class="${o[c]>=0?'pos':'neg'}">${pf(o[c])}</b></div>`).join('')}</div>
+  <p class="say">${say}</p>${b?`<p class="meta">Rente ${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'} · ${esc(b.last)}${nx?' · volgende besluit '+DAYN[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]:''}</p>`:''}</div>`}).join('');
+ const d=new Date(fx.dates[n-1]+'T12:00');$('fxat').textContent=d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();
+}
+function renderRates(){
+ const now=Date.now(),max=5;
+ $('rates').innerHTML=BANKS.map(b=>{const nx=evs.find(e=>e.bk===b.k&&+e.t>now);const up=/^\+/.test(b.last);return `<div class="rt"><span class="c">${b.c}<small>${b.k}</small></span><span class="bar"><i style="width:${Math.max(1.5,b.r/max*100)}%"></i></span><span class="v">${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'}</span><span class="info">Laatste besluit: <span class="${up?'up':'eq'}">${b.last}</span> · Volgende: ${nx?DAYN[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]+' '+nx.t.getFullYear()+' om '+hm(nx.t):'datum nog niet bekend'}</span></div>`}).join('');
+ $('corr').innerHTML='<div class="grid2">'+CORR.map((g,i)=>`<div class="grp"><h3><span>${i+1}</span>${g.t}</h3><div class="chips">${g.p.map(p=>`<span class="pill">${p}</span>`).join('')}</div><p>${g.d}</p><p class="ex">${g.ex}</p></div>`).join('')+'</div><p class="note">Vuistregel: heb je al een trade open, kijk dan of je nieuwe paar in dezelfde groep zit. Zo ja, neem een kleinere positie of kies een paar uit een andere groep.</p>';
+}
+function renderStrip(){
+ const d0=new Date();d0.setHours(0,0,0,0);const s0=+d0,L=864e5,pc=t=>Math.min(100,Math.max(0,(t-s0)/L*100));
+ for(let i=0;i<4;i++)$('r'+i).querySelectorAll('.ses,.tick').forEach(x=>x.remove());
+ ses.forEach(s=>{if(+s.b<s0||+s.a>s0+L)return;const el=document.createElement('div');el.className='ses s'+s.n;el.style.left=pc(+s.a)+'%';el.style.width=(pc(+s.b)-pc(+s.a))+'%';$('r'+s.n).appendChild(el)});
+ evs.filter(e=>rel(e)&&!e.info&&+e.t>=s0&&+e.t<s0+L).forEach(e=>{const el=document.createElement('div');el.className='tick '+e.imp;el.style.left=pc(+e.t)+'%';el.title=hm(e.t)+' '+e.name;$('r3').appendChild(el)});
+ const narrow=$('rows').clientWidth<420;
+ $('hrs').innerHTML=[0,3,6,9,12,15,18,21,24].filter((h,i)=>!narrow||i%2===0).map(h=>`<span style="left:${h/24*100}%;${h===0?'transform:none':h===24?'transform:translateX(-100%)':''}">${pad(h)}</span>`).join('');
+}
+
+
+
+const L=e=>e.ff&&e.cur!=='ALL'?e.cur+' '+e.name:e.name;
+function tick(){
+ const nowD=new Date(),now=+nowD;
+ $('clk').textContent=pad(nowD.getHours())+':'+pad(nowD.getMinutes())+':'+pad(nowD.getSeconds());
+ const d0=new Date();d0.setHours(0,0,0,0);$('nowl').style.left=((now-d0)/864e5*100)+'%';
+ const open=['Tokio','Londen','New York'].filter((n,i)=>ses.some(s=>s.n===i&&now>=s.a&&now<s.b));
+ const isC=closed(nowD);
+ $('sess').textContent=isC?'forex is dicht':open.length?'open: '+open.join(', ')+(open.includes('Londen')&&open.includes('New York')?' (drukste uren)':''):'rustig tussen de sessies';
+ const td=localYmd(nowD);
+ if(HOL[td]){$('hol').style.display='block';$('hol').textContent='Vandaag: '+HOL[td]}else $('hol').style.display='none';
+ const ffMax=Math.max(0,...(ff.items||[]).map(x=>+new Date(x.date)||0));
+ if(ffMax<now){$('ffold').style.display='block';$('ffold').textContent='Het nieuws van Forex Factory is nog niet bijgewerkt voor deze week. Herlaad de pagina straks; de vaste rentebesluiten en cijfers staan er wel in.'}else $('ffold').style.display='none';
+ const R=evs.filter(rel),H=HOLD();
+ const stop=R.find(e=>e.imp==='h'&&(([a,b])=>now>=a&&now<=b)(win(e)));
+ const med=R.find(e=>e.imp==='m'&&(([a,b])=>now>=a&&now<=b)(win(e)));
+ const inHold=R.filter(e=>e.imp==='h'&&+e.t>now&&+e.t-now<H);
+ const wk=R.find(e=>e.wk&&+e.t>now&&+e.t-now<12*36e5);
+ const day=R.filter(e=>e.imp==='h'&&+e.t>now&&+e.t-now<DAY);
+ const nextH=R.find(e=>e.imp==='h'&&+e.t>now);
+ let cls='ok',w='Rustig',s='Geen hoog nieuws in de komende 4 uur.';
+ if(isC){cls='dicht';w='Markt dicht';const o=R.find(e=>e.op&&+e.t>now);s=o?'Forex opent weer '+DAYL[o.t.getDay()]+' om '+hm(o.t)+'.':''}
+ else if(stop){cls='stop';w='Geen nieuwe trade';s=L(stop)+' ('+hm(stop.t)+'). Open niets tot '+hm(new Date(win(stop)[1]))+' en check de stop-loss van open posities.'}
+ else if(inHold.length){cls='let';w='Let op';const f=inHold[0];s='Binnen '+holdTxt()+': '+L(f)+' ('+when(f.t,now)+')'+(inHold.length>1?' en nog '+(inHold.length-1)+' meer':'')+'. Een trade die je nu opent, loopt daar doorheen.'}
+ else if(wk){cls='let';w='Let op';s='Forex sluit '+when(wk.t,now)+' voor het weekend. Houd je een trade langer vast, dan loop je het risico op een koersgat maandag.'}
+ else if(med){cls='let';w='Let op';s=L(med)+(med.note?': '+med.note.toLowerCase():'')+'.'}
+ else if(HOL[td]){cls='let';w='Let op';s='Dunne markt: spreads kunnen breder zijn.'}
+ if(!isC&&cls!=='stop'){const later=day.filter(e=>!inHold.includes(e));if(later.length)s+=' Komende 24 uur: '+later.slice(0,3).map(e=>L(e)+' ('+when(e.t,now)+')').join(', ')+'.';else if(!inHold.length)s+=' Ook de komende 24 uur geen hoog nieuws.'}
+ $('st').className='status '+cls;$('stw').textContent=w;$('sts').textContent=s;
+ $('stp').textContent='Alle valutaparen';
+ $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
+ if(nextH){$('cdl').textContent='Tot '+L(nextH)+' · '+DAYN[nextH.t.getDay()]+' '+nextH.t.getDate()+' '+MON[nextH.t.getMonth()]+' '+hm(nextH.t)+(nextH.cur!=='ALL'?' · '+nextH.cur:'');$('cd').textContent=fmtDur(+nextH.t-now)}
+ else{$('cdl').textContent='Geen hoog nieuws gepland';$('cd').textContent='--:--:--'}
+ alerts(R,now);
+ if(nowD.getSeconds()===0){renderLists();if(nowD.getHours()===0&&nowD.getMinutes()===0){build();renderStrip()}}
+}
+let ctx=null;const fired=new Set();
+function beep(n){if(!ctx)return;for(let i=0;i<n;i++){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=880;o.connect(g);g.connect(ctx.destination);const t=ctx.currentTime+i*.35;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.3,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.25);o.start(t);o.stop(t+.3)}}
+function notify(txt){try{if(window.Notification&&Notification.permission==='granted')new Notification('Forex-waarschuwing',{body:txt})}catch(e){}}
+function alerts(R,now){R.filter(e=>e.imp==='h').forEach(e=>{[[30*6e4,'over 30 minuten',2],[0,'nu',3]].forEach(([d,txt,n])=>{const k=+e.t+'|'+e.name+'|'+d,at=+e.t-d;if(now>=at&&now<at+3e4&&!fired.has(k)){fired.add(k);beep(n);notify(e.name+' '+txt)}})})}
+function all(){build();renderLists();renderStrip();renderRates();renderCoins();tick()}
+
+/* views */
+const VIEWS=['nu','week','munten','rente','paren','info'];
+function show(){const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):'nu';VIEWS.forEach(x=>$('v-'+x).classList.toggle('on',x===v));document.querySelectorAll('nav a').forEach(a=>{if(a.dataset.v===v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});if(v==='nu')renderStrip()}
+window.addEventListener('hashchange',show);
+
+/* events */
+$('wf').addEventListener('click',ev=>{const b=ev.target.closest('[data-f]');if(!b)return;wfil=b.dataset.f;ls.set('fxw-wf',wfil);renderLists()});
+$('snd').addEventListener('click',ev=>{try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume();beep(1);ev.target.textContent='Geluid staat aan';try{window.Notification&&Notification.requestPermission().catch(()=>{})}catch(e){}}catch(e){ev.target.textContent='Geluid werkt hier niet'}});
+const ffInfo=()=>{$('ffinfo').textContent=(ff.items||[]).length+' berichten (bijgewerkt '+ff.at+')'};
+
+const ro=new ResizeObserver(renderStrip);ro.observe($('rows'));
+build();ffInfo();renderRates();renderCoins();
+$('mp').addEventListener('click',ev=>{const b=ev.target.closest('[data-p]');if(!b)return;mper=+b.dataset.p;renderCoins()});
+fetch('fx.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.dates)&&j.dates.length>1&&j.rates&&['USD','GBP','JPY','AUD','CAD','CHF','NZD'].every(c=>Array.isArray(j.rates[c])&&j.rates[c].length===j.dates.length)){fx=j;renderCoins()}}).catch(()=>{});
+
+fetch('rates.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.banks)){j.banks.forEach(n=>{const b=BANKS.find(x=>x.k===n.k);if(b&&typeof n.r==='number'){b.r=n.r;b.txt=n.txt?String(n.txt):'';b.last=String(n.last||b.last)}});BANKS.sort((a,b)=>b.r-a.r);if(j.at)$('rat').textContent=String(j.at);renderRates();renderCoins()}}).catch(()=>{});
+fetch('ff.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.items)&&j.items.length){ff={at:String(j.at||''),items:j.items.filter(x=>x&&typeof x.title==='string'&&typeof x.date==='string')};ffInfo();all()}}).catch(()=>{});
+renderLists();renderStrip();show();tick();setInterval(tick,1000);
+}
+</script>
+</body>
+</html>
