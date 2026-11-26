@@ -234,7 +234,7 @@ a{color:var(--blue)}
   <div class="cols">
     <section class="panel">
       <h2>Meldingen</h2>
-      <p class="note" style="margin-top:0">Meldingen gaan vanzelf: een piep 30 minuten vóór hoog nieuws en op het moment zelf. Je browser laat geluid pas toe na één klik, daarom staat bovenaan de knop "Geluid aanzetten". Druk daar één keer op als je de pagina opent, en houd de pagina open.</p>
+      <p class="note" style="margin-top:0">Meldingen gaan vanzelf: een piep 30 minuten vóór hoog nieuws en op het moment zelf. Het stoplicht staat van 30 minuten vóór tot 30 minuten ná hoog nieuws op rood, en op roze als er binnen 4 uur hoog nieuws komt. Je browser laat geluid pas toe na één klik, daarom staat bovenaan de knop "Geluid aanzetten". Druk daar één keer op als je de pagina opent, en houd de pagina open.</p>
       <p class="note">De pagina toont het nieuws voor alle valuta's: USD, EUR, GBP, JPY, AUD, CAD, CHF en NZD.</p>
     </section>
     <section class="panel">
@@ -244,8 +244,8 @@ a{color:var(--blue)}
     </section>
     <section class="panel">
       <h2>Over deze pagina</h2>
-      <p class="note" style="margin-top:0">Alles wordt vanzelf bijgewerkt: elke ochtend rond 06:17 en op werkdagen ook 's middags rond 16:47 (in de zomer een uur later). Al het nieuws, alle rentebesluiten en feestdagen komen van Forex Factory: verandert daar een datum of tijd, dan verandert die hier ook. Forex Factory kijkt deze week en volgende week vooruit. De rentes komen van de centrale banken zelf en de koersen van de ECB. De middagupdate zorgt dat de koersen van die dag en een rentebesluit van die middag er meteen in staan. De BoJ heeft geen vaste tijd, dus daar staat een ruime marge.</p>
-      <p class="note">Onverwacht nieuws (een plotselinge uitspraak, geopolitiek) zit er niet in. Dat zie je alleen live, bijvoorbeeld op <a href="https://www.forexfactory.com/news">Forex Factory News</a>.</p>
+      <p class="note" style="margin-top:0">Alles wordt vanzelf bijgewerkt: elke ochtend rond 06:17 en op werkdagen ook 's middags rond 16:47 (in de zomer een uur later). Al het nieuws, alle rentebesluiten en feestdagen komen van Forex Factory: verandert daar een datum of tijd, dan verandert die hier ook. Forex Factory kijkt deze week en volgende week vooruit. De rentes komen van de centrale banken zelf (die van Japan en Nieuw-Zeeland via Forex Factory) en de koersen van de ECB. Door de middagupdate staan de koersen van die dag er al in. De Bank of Japan heeft geen vaste tijd, dus daar houdt het stoplicht een ruime marge aan.</p>
+      <p class="note">Onverwacht nieuws (een plotselinge uitspraak, ingrijpen van een centrale bank, geopolitiek) zit er niet in. Bescherm je daartegen met een stop-loss, en zet voor directe meldingen de meldingen van de Forex Factory-app aan. Live meelezen kan op <a href="https://www.forexfactory.com/news">Forex Factory News</a>.</p>
       <p class="note">Dit is een hulpmiddel, geen financieel advies.</p>
     </section>
   </div>
@@ -359,7 +359,7 @@ function build(){
   const fc=[it.forecast?'verwacht '+it.forecast:'',it.previous?'vorige '+it.previous:''].filter(Boolean).join(', ');
   const RB={USD:['Fed',/Federal Funds Rate/],EUR:['ECB',/Main Refinancing Rate|Deposit Facility Rate/],GBP:['BoE',/Official Bank Rate/],JPY:['BoJ',/BOJ Policy Rate/],AUD:['RBA',/Cash Rate/],CAD:['BoC',/Overnight Rate/],CHF:['SNB',/SNB Policy Rate/],NZD:['RBNZ',/Official Cash Rate/]}[it.country];
   const bk=RB&&RB[1].test(it.title)?RB[0]:undefined;
-  evs.push({t,name:String(it.title),cur:String(it.country),imp,ff:1,fc,bk});
+  evs.push(Object.assign({t,name:String(it.title),cur:String(it.country),imp,ff:1,fc,bk},bk==='BoJ'?{wb:150,wa:90,note:'De Bank of Japan heeft geen vaste tijd: het besluit komt meestal tussen 3:30 en 6:00 NL-tijd.'}:{}));
  });
  evs.sort((a,b)=>a.t-b.t);
 }
