@@ -54,7 +54,16 @@ button:focus-visible,nav a:focus-visible{outline:3px solid var(--blue);outline-o
 .st-sub{font-size:16px;font-weight:600;line-height:1.5;max-width:34em;position:relative;z-index:1}
 .cd{margin-top:auto;background:rgba(255,255,255,.45);border-radius:16px;padding:12px 16px;position:relative;z-index:1}
 .status.stop .cd{background:rgba(0,0,0,.14)}
-.cd small{display:block;font-size:13px;font-weight:600;opacity:.8}
+.cd{display:grid;gap:10px}
+.cdr{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:0 12px;align-items:center}
+.cdr{background:rgba(255,255,255,.55);border-radius:12px;padding:8px 12px;border-left:6px solid}
+.cdr.h{border-left-color:var(--red)}.cdr.m{border-left-color:var(--mid)}.cdr.l{border-left-color:var(--low)}
+.status.stop .cdr{background:rgba(255,255,255,.88);color:#0f172a}
+.cd{background:transparent!important;padding:0!important}
+.cdh{font-size:13px;font-weight:800;grid-column:1/-1;display:flex;align-items:center}
+.cdh .dot{border:2px solid rgba(255,255,255,.8);width:12px;height:12px}
+.cdn{font-size:13px;font-weight:600;opacity:.85;line-height:1.4}
+.cdr b{font-size:clamp(20px,3vw,26px)!important}
 .cd b{font-size:clamp(30px,4.5vw,42px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
 .strip{padding:20px;display:flex;flex-direction:column}
 .strip h2{font-size:17px}
@@ -130,6 +139,14 @@ button.ghost::before{content:"🔔";margin-right:6px}
 .chg b{font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .coin .say{font-weight:700;margin:12px 0 0;font-size:15px}
 .coin .meta{font-size:14px;color:var(--soft);margin:4px 0 0}
+.mk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
+.mk>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:2px}
+.mk b{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.mk b i{width:9px;height:9px;border-radius:50%;background:var(--soft);flex:none}
+.mk .on b i{background:var(--grn);box-shadow:0 0 0 3px color-mix(in srgb,var(--grn) 25%,transparent)}
+.mk span{font-size:13px;color:var(--soft);font-weight:600;font-variant-numeric:tabular-nums}
+.mk .on span{color:var(--ink)}
+@media(max-width:600px){.mk{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px}
 .grp{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
 .grp h3{margin:0;font-size:17px;font-weight:800}
@@ -148,8 +165,8 @@ a{color:var(--blue)}
 <body>
 <div class="band" style="padding-bottom:10px"><div class="wrap top">
   <h1>Forex-waarschuwingen</h1>
-  <div class="set" style="align-items:center"><div class="clock">Jouw tijd <b id="clk">--:--:--</b> · <span id="sess"></span></div><button class="btn ghost" id="snd" type="button">Geluid aanzetten</button></div>
-</div></div>
+  <div class="set" style="align-items:center"><div class="clock">Jouw tijd <b id="clk">--:--:--</b><span id="sess" hidden></span></div><button class="btn ghost" id="snd" type="button">Geluid aanzetten</button></div>
+</div><div class="wrap"><div class="mk" id="mk" aria-label="Openingstijden van de markten"></div></div></div>
 <nav aria-label="Onderdelen"><div class="wrap"><div class="tabs">
   <a href="#nu" data-v="nu">Nu <span class="badge" id="bdg"></span></a>
   <a href="#week" data-v="week">Week</a>
@@ -170,7 +187,7 @@ a{color:var(--blue)}
       <div class="st-pairs" id="stp"></div>
       <div class="st-word" id="stw">Rustig</div>
       <div class="st-sub" id="sts"></div>
-      <div class="cd"><small id="cdl"></small><b id="cd">--:--:--</b></div>
+      <div class="cd" id="cds"></div>
     </section>
     <section class="strip card">
       <h2>Vandaag in 24 uur</h2>
@@ -334,12 +351,12 @@ const HOLD=()=>4*36e5,DAY=24*36e5;
 let evs=[],ses=[];
 function build(){
  evs=[];ses=[];
- const add=(ymd,tz,h,m,name,cur,imp,x={})=>evs.push(Object.assign({t:zt(ymd,tz,h,m),name,cur,imp,info:imp==='l'},x));
+ const add=(ymd,tz,h,m,name,cur,imp,x={})=>evs.push(Object.assign({t:zt(ymd,tz,h,m),name,cur,imp,info:true},x));
  const today=localYmd(new Date());
  for(let k=-1;k<=22;k++){
   const s=addDays(today,k),w=wd(s),hol=HOL[s];
   if(w>=1&&w<=5){
-   ses.push({n:0,a:zt(s,TOK,9,0),b:zt(s,TOK,18,0)},{n:1,a:zt(s,LON,8,0),b:zt(s,LON,17,0)},{n:2,a:zt(s,NY,8,0),b:zt(s,NY,17,0)});
+   ses.push({n:3,a:zt(s,'Australia/Sydney',8,0),b:zt(s,'Australia/Sydney',17,0)},{n:0,a:zt(s,TOK,9,0),b:zt(s,TOK,18,0)},{n:1,a:zt(s,LON,8,0),b:zt(s,LON,17,0)},{n:2,a:zt(s,NY,8,0),b:zt(s,NY,17,0)});
    add(s,LON,8,0,'Londen opent','ALL','l',{note:'Er wordt nu meer gehandeld en de koersen bewegen meer.'});
    add(s,NY,8,0,'New York opent','ALL','l',{note:'Londen en New York zijn nu allebei open, dit zijn de drukste uren van de dag.'});
    const nx=addDays(s,w===5?3:1),monthEnd=nx.slice(5,7)!==s.slice(5,7);
@@ -421,7 +438,7 @@ function renderRates(){
 function renderStrip(){
  const d0=new Date();d0.setHours(0,0,0,0);const s0=+d0,L=864e5,pc=t=>Math.min(100,Math.max(0,(t-s0)/L*100));
  for(let i=0;i<4;i++)$('r'+i).querySelectorAll('.ses,.tick').forEach(x=>x.remove());
- ses.forEach(s=>{if(+s.b<s0||+s.a>s0+L)return;const el=document.createElement('div');el.className='ses s'+s.n;el.style.left=pc(+s.a)+'%';el.style.width=(pc(+s.b)-pc(+s.a))+'%';$('r'+s.n).appendChild(el)});
+ ses.forEach(s=>{if(s.n===3||+s.b<s0||+s.a>s0+L)return;const el=document.createElement('div');el.className='ses s'+s.n;el.style.left=pc(+s.a)+'%';el.style.width=(pc(+s.b)-pc(+s.a))+'%';$('r'+s.n).appendChild(el)});
  evs.filter(e=>rel(e)&&!e.info&&+e.t>=s0&&+e.t<s0+L).forEach(e=>{const el=document.createElement('div');el.className='tick '+e.imp;el.style.left=pc(+e.t)+'%';el.title=hm(e.t)+' '+e.name;$('r3').appendChild(el)});
  const narrow=$('rows').clientWidth<420;
  $('hrs').innerHTML=[0,3,6,9,12,15,18,21,24].filter((h,i)=>!narrow||i%2===0).map(h=>`<span style="left:${h/24*100}%;${h===0?'transform:none':h===24?'transform:translateX(-100%)':''}">${pad(h)}</span>`).join('');
@@ -429,11 +446,21 @@ function renderStrip(){
 
 
 
+function renderMarkets(now){
+ const nowD=new Date(now),td=localYmd(nowD),C=closed(nowD),R0=evs;
+ $('mk').innerHTML=[[3,'Sydney'],[0,'Tokio'],[1,'Londen'],[2,'New York']].map(([n,nm])=>{
+  const cur=ses.find(x=>x.n===n&&now>=x.a&&now<x.b),nx=ses.filter(x=>x.n===n&&+x.a>now).sort((a,b)=>a.a-b.a)[0];
+  const day=t=>localYmd(t)===td?'om '+hm(t):(localYmd(t)===localYmd(new Date(now+864e5))?'morgen om ':DAYL[t.getDay()]+' om ')+hm(t);
+  const wo=R0.find(e=>e.op&&+e.t>now),na=nx&&C&&wo&&+nx.a<+wo.t?wo.t:nx&&nx.a;
+  const on=cur&&!C,txt=on?'Open, sluit '+day(cur.b):'Dicht, opent '+(na?day(na):'later');
+  return `<div class="${on?'on':''}"><b><i></i>${nm}</b><span>${txt}</span></div>`}).join('');
+}
 const L=e=>e.ff&&e.cur!=='ALL'?e.cur+' '+e.name:e.name;
 function tick(){
  const nowD=new Date(),now=+nowD;
  $('clk').textContent=pad(nowD.getHours())+':'+pad(nowD.getMinutes())+':'+pad(nowD.getSeconds());
  const d0=new Date();d0.setHours(0,0,0,0);$('nowl').style.left=((now-d0)/864e5*100)+'%';
+ renderMarkets(now);
  const open=['Tokio','Londen','New York'].filter((n,i)=>ses.some(s=>s.n===i&&now>=s.a&&now<s.b));
  const isC=closed(nowD);
  $('sess').textContent=isC?'forex is dicht':open.length?'open: '+open.join(', ')+(open.includes('Londen')&&open.includes('New York')?' (drukste uren)':''):'rustig tussen de sessies';
@@ -459,9 +486,8 @@ function tick(){
  $('st').className='status '+cls;$('stw').textContent=w;$('sts').textContent=s;
  $('stp').textContent='Alle valutaparen';
  $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
- const nx2=nextH||R.find(e=>e.imp==='m'&&!e.info&&+e.t>now)||R.find(e=>e.imp==='l'&&!e.info&&+e.t>now);
- if(nx2){const lvl={h:'hoog',m:'middel',l:'laag'}[nx2.imp];$('cdl').textContent=(nextH?'Tot ':'Er staat nog geen hoog nieuws in de kalender. Het eerstvolgende nieuws ('+lvl+') is ')+nx2.name+', '+DAYL[nx2.t.getDay()]+' '+nx2.t.getDate()+' '+MON[nx2.t.getMonth()]+' om '+hm(nx2.t)+(nx2.cur!=='ALL'?' ('+nx2.cur+')':'')+'.';$('cd').textContent=fmtDur(+nx2.t-now)}
- else{$('cdl').textContent='Er staat nog geen nieuws in de kalender van Forex Factory. Dit wordt in het weekend aangevuld.';$('cd').textContent='--:--:--'}
+ $('cds').innerHTML=[['h','Hoog nieuws'],['m','Middel nieuws'],['l','Laag nieuws']].map(([k,lab])=>{const e=R.find(x=>x.imp===k&&!x.info&&+x.t>now);
+  return `<div class="cdr ${k}"><div class="cdh"><span class="dot ${k}"></span>${lab}</div>${e?`<div class="cdn">${esc(e.name)}${e.cur!=='ALL'?' ('+esc(e.cur)+')':''}, ${DAYL[e.t.getDay()]} ${e.t.getDate()} ${MON[e.t.getMonth()]} om ${hm(e.t)}</div><b>${fmtDur(+e.t-now)}</b>`:'<div class="cdn">Staat nog niet in de kalender van Forex Factory.</div><b>--:--:--</b>'}</div>`}).join('');
  alerts(R,now);
  if(nowD.getSeconds()===0){renderLists();if(nowD.getHours()===0&&nowD.getMinutes()===0){build();renderStrip()}}
 }
