@@ -36,7 +36,7 @@ De pagina staat daarna op:
 
 ## Hoe het daarna werkt
 
-Alles gaat vanzelf, elke ochtend rond 06:17 (in de zomer 07:17):
+Alles gaat vanzelf, elke ochtend rond 06:17 en op werkdagen ook rond 16:47 (in de zomer een uur later):
 
 - **Nieuws en feestdagen** komen van Forex Factory (deze week en volgende week), met de verwachte en vorige waarde, in dezelfde kleuren als Forex Factory: rood = hoog, oranje = middel, geel = laag.
 - **Rentes** worden opgehaald bij de bronnen zelf: Fed en ECB via FRED, de Bank of England, de Bank of Canada,
