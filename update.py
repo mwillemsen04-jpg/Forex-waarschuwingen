@@ -161,7 +161,72 @@ def update_fx():
     except Exception as e:
         print("Koersen niet bijgewerkt:", e)
 
+NTFY_TOPIC = "forex-waarschuwingen-2f6e3762c8"
+DAGEN = ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]
+
+def ntfy(payload):
+    req = urllib.request.Request("https://ntfy.sh/", data=json.dumps(payload).encode("utf-8"),
+                                 headers={"Content-Type": "application/json"}, method="POST")
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.status
+
+def schedule_alerts(send=ntfy):
+    """Plant pushmeldingen in via ntfy.sh, 30 minuten voor elk hoog nieuwsbericht."""
+    from zoneinfo import ZoneInfo
+    nl = ZoneInfo("Europe/Amsterdam")
+    try:
+        items = json.load(open("ff.json")).get("items", [])
+    except Exception:
+        return
+    try:
+        sent = json.load(open("sent.json"))
+    except Exception:
+        sent = None
+    now = datetime.datetime.now(datetime.timezone.utc)
+    if sent is None:
+        sent = []
+        try:
+            send({"topic": NTFY_TOPIC, "title": "Forex-waarschuwingen",
+                  "message": "De meldingen staan aan. Je krijgt voortaan 30 minuten voor elk hoog nieuwsbericht een melding.",
+                  "tags": ["white_check_mark"]})
+        except Exception as e:
+            print("Welkomstmelding mislukt:", e)
+    keep = []
+    for x in items:
+        if x.get("impact") != "High":
+            continue
+        try:
+            t = datetime.datetime.fromisoformat(x["date"])
+        except Exception:
+            continue
+        key = x["title"] + "|" + x["country"] + "|" + x["date"]
+        alert = t - datetime.timedelta(minutes=30)
+        if t < now - datetime.timedelta(days=2):
+            continue
+        if key in sent:
+            keep.append(key); continue
+        if t <= now or alert > now + datetime.timedelta(days=2, hours=23):
+            continue
+        lt = t.astimezone(nl)
+        msg = (f"Om {lt:%H:%M} komt {x['title']} ({x['country']}). Dit is hoog nieuws en kan de koers flink bewegen. "
+               "Open liever geen nieuwe trade en kijk naar de stop-loss van je open posities.")
+        if x.get("forecast"):
+            msg += f" Forex Factory verwacht {x['forecast']}."
+        payload = {"topic": NTFY_TOPIC, "title": f"Over 30 minuten hoog nieuws ({x['country']})",
+                   "message": msg, "priority": 4, "tags": ["warning"]}
+        if alert > now + datetime.timedelta(minutes=1):
+            payload["delay"] = str(int(alert.timestamp()))
+        else:
+            payload["title"] = f"Zo meteen hoog nieuws ({x['country']})"
+        try:
+            send(payload); keep.append(key)
+            print("Melding ingepland:", key, "om", alert.astimezone(nl).strftime("%d-%m %H:%M"))
+        except Exception as e:
+            print("Melding mislukt:", key, e)
+    json.dump(keep, open("sent.json", "w"))
+
 if __name__ == "__main__":
     main(sys.argv[1:] or None)
     if not sys.argv[1:]:
         update_fx()
+        schedule_alerts()

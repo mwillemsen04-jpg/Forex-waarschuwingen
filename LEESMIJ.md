@@ -47,3 +47,9 @@ Alles gaat vanzelf, elke ochtend rond 06:17 en op werkdagen ook rond 16:47 (in d
 - **Alle data en tijden** (rentebesluiten, CPI, banenrapport enzovoort) komen alleen van Forex Factory. Verandert daar iets, dan verandert het hier ook. Je ziet deze en volgende week vooruit.
 - Is een bron een keer onbereikbaar, dan blijft de oude informatie staan en probeert GitHub het de volgende ochtend opnieuw.
 - Wil je zien of het werkt? Kijk op github.com bij het tabblad *Actions*: elke dag hoort er een groen vinkje bij te komen.
+
+## Meldingen op je telefoon
+
+Het script plant elke ochtend en middag via ntfy.sh een pushmelding in, 30 minuten voor elk hoog nieuwsbericht.
+Installeer de gratis app ntfy en abonneer je op de naam die op de pagina bij Info staat.
+In `sent.json` houdt het script bij welke meldingen al zijn ingepland, zodat je er geen dubbele krijgt.
