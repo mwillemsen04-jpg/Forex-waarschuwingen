@@ -44,7 +44,6 @@ Alles gaat vanzelf, elke ochtend rond 06:17 en op werkdagen ook rond 16:47 (in d
   met de verandering en de datum erbij. Voor de Bank of Japan en Nieuw-Zeeland bestaat geen open databron:
   die rente neemt het script over van Forex Factory zodra het volgende besluit in de kalender staat.
 - **Koersen voor het tabblad Munten** komen van de Europese Centrale Bank (via frankfurter.dev), de laatste 3 maanden.
-- **Nieuwe vergaderdata** komen ook uit Forex Factory. De data tot eind 2027 staan er al in, zodat je
-  verder vooruit kunt kijken. Daarna werkt alles gewoon door via Forex Factory (dan zie je ongeveer 1 à 2 weken vooruit).
+- **Alle data en tijden** (rentebesluiten, CPI, banenrapport enzovoort) komen alleen van Forex Factory. Verandert daar iets, dan verandert het hier ook. Je ziet deze en volgende week vooruit.
 - Is een bron een keer onbereikbaar, dan blijft de oude informatie staan en probeert GitHub het de volgende ochtend opnieuw.
 - Wil je zien of het werkt? Kijk op github.com bij het tabblad *Actions*: elke dag hoort er een groen vinkje bij te komen.
