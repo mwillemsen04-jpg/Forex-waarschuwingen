@@ -524,7 +524,7 @@ function tick(){
  else if(HOL[td]){cls='let';w='Let op';s='Er wordt vandaag weinig gehandeld, dus de spreads kunnen breder zijn.'}
  if(!isC&&cls!=='stop'){const later=day.filter(e=>!inHold.includes(e));if(later.length)s+=' In de komende 24 uur komt ook '+later.slice(0,3).map(e=>L(e)+' ('+when(e.t,now)+')').join(', ')+'.';else if(!inHold.length)s+=' Ook in de komende 24 uur komt er geen hoog nieuws.'}
  $('st').className='status '+cls;$('stw').textContent=w;$('sts').textContent=s;
- $('stp').textContent='Alle valutaparen';
+ $('stp').textContent='Stoplicht, kan ik nu een nieuwe trade openen?';
  $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
  $('cds').innerHTML=[['h','Hoog nieuws'],['m','Middel nieuws'],['l','Laag nieuws']].map(([k,lab])=>{const e=R.find(x=>x.imp===k&&!x.info&&+x.t>now);
   return `<div class="cdr ${k}"><div class="cdh"><span class="dot ${k}"></span>${lab}</div>${e?`<div class="cdn">${esc(e.name)}${e.cur!=='ALL'?' ('+esc(e.cur)+')':''}, ${DAYL[e.t.getDay()]} ${e.t.getDate()} ${MON[e.t.getMonth()]} om ${hm(e.t)}</div><b>${fmtDur(+e.t-now)}</b><div class="cdx">${esc(expl(e.name,e.imp,e.cur))}</div>`:'<div class="cdn">Staat nog niet in de kalender van Forex Factory.</div><b>--:--:--</b>'}</div>`}).join('');
