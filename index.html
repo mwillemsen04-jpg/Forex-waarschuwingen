@@ -308,7 +308,8 @@ const EXPL=[
  [/industrial production|manufacturing production|factory orders|durable goods|machinery orders|manufacturing sales/i,'Productie of bestellingen van de industrie. Hoger dan verwacht: valuta meestal iets sterker.'],
  [/capital expenditure|capex|business investment/i,'Investeringen van bedrijven. Hoger dan verwacht laat een sterke economie zien: valuta meestal iets sterker.'],
  [/building|housing|home sales|house price|hpi|construction|mortgage|starts/i,'Woningmarkt of bouw. Hoger dan verwacht: valuta meestal iets sterker. Meestal weinig invloed.'],
- [/minutes|notulen/i,'Notulen van de vorige rentevergadering. Kan hints geven over de volgende stap.'],
+ [/fpc/i,'Commissie van de Bank of England die let op de stabiliteit van banken (niet de rente). Meestal weinig invloed.'],
+ [/minutes|notulen|meeting accounts|accounts/i,'Notulen van de vorige rentevergadering. Kan hints geven over de volgende stap.'],
  [/rentebesluit|cash rate|bank rate|overnight rate|policy rate|funds rate|refinancing rate|deposit facility|monetary policy statement|policy statement/i,'Rentebesluit. Hogere rente of strengere woorden: valuta meestal sterker.'],
  [/speaks|testif|press conference|hearing|persconferentie/i,'Toespraak of hoorzitting. Eén zin kan de koers plots laten bewegen.'],
  [/confidence|sentiment|zew|ifo|gfk|consumer climate|tankan|nfib|outlook/i,'Vertrouwen van consumenten of bedrijven. Hoger dan verwacht: valuta meestal iets sterker.'],
@@ -345,7 +346,6 @@ function build(){
    add(s,NY,8,0,'New York opent','ALL','l',{note:'Overlap met Londen: drukste uren van de dag'});
    const nx=addDays(s,w===5?3:1),monthEnd=nx.slice(5,7)!==s.slice(5,7);
    if(monthEnd)add(s,LON,16,0,'Maandeinde-fix Londen','ALL','m',{wb:30,wa:15,note:'Grote orders van fondsen, koers kan plots draaien'});
-   if(w===4&&!hol)add(s,NY,8,30,'Werkloosheidsaanvragen VS','USD','m',{wb:5,wa:15});
    if(w===5)add(s,NY,17,0,'Forex sluit voor het weekend','ALL','m',{wb:120,wa:0,wk:1,note:'Houd je een positie het weekend vast? Reken op een koersgat maandag'});
    else add(s,NY,17,0,w===3?'Drievoudige swap':'Rollover (swap)','ALL',w===3?'m':'l',{wb:15,wa:15,note:w===3?'Swap van 3 dagen wordt nu verrekend: let op als je positie swap kost':'Swap wordt verrekend, spreads even breed'});
   }
