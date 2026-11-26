@@ -50,6 +50,6 @@ Alles gaat vanzelf, elke ochtend rond 06:17 en op werkdagen ook rond 16:47 (in d
 
 ## Meldingen op je telefoon
 
-Het script plant elke ochtend en middag via ntfy.sh een pushmelding in, 30 minuten voor elk hoog nieuwsbericht.
+Het script plant elke ochtend en middag via ntfy.sh een pushmelding in, 1 minuut voor elk hoog nieuwsbericht.
 Installeer de gratis app ntfy en abonneer je op de naam die op de pagina bij Info staat.
 In `sent.json` houdt het script bij welke meldingen al zijn ingepland, zodat je er geen dubbele krijgt.

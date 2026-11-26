@@ -171,7 +171,7 @@ def ntfy(payload):
         return r.status
 
 def schedule_alerts(send=ntfy):
-    """Plant pushmeldingen in via ntfy.sh, 30 minuten voor elk hoog nieuwsbericht."""
+    """Plant pushmeldingen in via ntfy.sh, 1 minuut voor elk hoog nieuwsbericht."""
     from zoneinfo import ZoneInfo
     nl = ZoneInfo("Europe/Amsterdam")
     try:
@@ -187,7 +187,7 @@ def schedule_alerts(send=ntfy):
         sent = []
         try:
             send({"topic": NTFY_TOPIC, "title": "Forex-waarschuwingen",
-                  "message": "De meldingen staan aan. Je krijgt voortaan 30 minuten voor elk hoog nieuwsbericht een melding.",
+                  "message": "De meldingen staan aan. Je krijgt voortaan 1 minuut voor elk hoog nieuwsbericht een melding.",
                   "tags": ["white_check_mark"]})
         except Exception as e:
             print("Welkomstmelding mislukt:", e)
@@ -199,8 +199,8 @@ def schedule_alerts(send=ntfy):
             t = datetime.datetime.fromisoformat(x["date"])
         except Exception:
             continue
-        key = x["title"] + "|" + x["country"] + "|" + x["date"]
-        alert = t - datetime.timedelta(minutes=30)
+        key = x["title"] + "|" + x["country"] + "|" + x["date"] + "|1m"
+        alert = t - datetime.timedelta(minutes=1)
         if t < now - datetime.timedelta(days=2):
             continue
         if key in sent:
@@ -212,9 +212,9 @@ def schedule_alerts(send=ntfy):
                "Open liever geen nieuwe trade en kijk naar de stop-loss van je open posities.")
         if x.get("forecast"):
             msg += f" Forex Factory verwacht {x['forecast']}."
-        payload = {"topic": NTFY_TOPIC, "title": f"Over 30 minuten hoog nieuws ({x['country']})",
+        payload = {"topic": NTFY_TOPIC, "title": f"Over 1 minuut hoog nieuws ({x['country']})",
                    "message": msg, "priority": 4, "tags": ["warning"]}
-        if alert > now + datetime.timedelta(minutes=1):
+        if alert > now + datetime.timedelta(seconds=30):
             payload["delay"] = str(int(alert.timestamp()))
         else:
             payload["title"] = f"Zo meteen hoog nieuws ({x['country']})"
