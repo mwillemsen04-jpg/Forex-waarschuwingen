@@ -29,7 +29,7 @@ h2{font-size:20px;margin:0 0 12px;letter-spacing:-.01em;font-weight:800}
 .clock b{color:var(--ink);font-size:18px;font-variant-numeric:tabular-nums;margin-right:4px}
 nav{position:sticky;top:0;z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 nav{padding:6px max(4vw,16px) 10px}
-nav .wrap{overflow-x:auto}
+nav .wrap{overflow:visible}
 nav .tabs{display:inline-flex;gap:4px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
 nav a{flex:none;display:flex;align-items:center;min-height:42px;padding:0 16px;font-weight:700;font-size:15px;color:var(--soft);text-decoration:none;border-radius:10px}
 nav a:hover{color:var(--ink)}
@@ -141,7 +141,7 @@ button.ghost::before{content:"🔔";margin-right:6px}
 .lead{color:var(--soft);font-size:15px;margin:0 0 16px;max-width:60em}
 a{color:var(--blue)}
 @media(max-width:820px){.hero{grid-template-columns:minmax(0,1fr)}.status{min-height:0}}
-@media(max-width:600px){.cols{grid-template-columns:minmax(0,1fr)}.strip{padding:14px}.list .t{font-size:16px}nav a{padding:0 12px;font-size:14px}.status{padding:20px}h1::before{display:none}}
+@media(max-width:600px){nav .tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}nav a{justify-content:center}.cols{grid-template-columns:minmax(0,1fr)}.strip{padding:14px}.list .t{font-size:16px}nav a{padding:0 12px;font-size:14px}.status{padding:20px}h1::before{display:none}}
 @media(prefers-reduced-motion:reduce){.status,.view.on,.st-pairs::before{transition:none;animation:none}}
 </style>
 </head>
@@ -297,24 +297,47 @@ const hm=dt=>pad(dt.getHours())+':'+pad(dt.getMinutes());
 const DAYN=['zo','ma','di','wo','do','vr','za'],DAYL=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
 const MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
 const EXPL=[
+ [/holiday/i,'Feestdag: weinig handel in deze valuta, spreads kunnen breder zijn.'],
+ [/inflation expectations/i,'Wat mensen of bedrijven verwachten dat de prijzen gaan doen. Hoger dan verwacht: valuta meestal sterker.'],
  [/core pce|pce price/i,'Inflatie die de Fed het belangrijkst vindt. Hoger dan verwacht: valuta meestal sterker.'],
  [/cpi|inflation|inflatie|hicp/i,'Inflatie. Hoger dan verwacht: valuta meestal sterker, omdat de rente dan langer hoog blijft.'],
- [/ppi/i,'Prijzen voor producenten, een voorbode van inflatie.'],
- [/non-farm|nfp/i,'Banenrapport VS, een van de grootste bewegers. Meer banen dan verwacht: dollar meestal sterker.'],
- [/unemployment claims|werkloosheidsaanvragen/i,'Nieuwe werkloosheidsaanvragen. Meer dan verwacht: dollar meestal zwakker.'],
+ [/ppi|producer price/i,'Prijzen voor producenten, een voorbode van inflatie. Hoger dan verwacht: valuta meestal iets sterker.'],
+ [/import price|export price/i,'Prijzen van in- of uitgevoerde spullen. Raakt de inflatie: hoger dan verwacht geeft meestal een iets sterkere valuta.'],
+ [/non-farm|nfp|banenrapport/i,'Banenrapport VS, een van de grootste bewegers. Meer banen dan verwacht: dollar meestal sterker.'],
+ [/unemployment claims|jobless|werkloosheidsaanvragen/i,'Nieuwe werkloosheidsaanvragen. Meer dan verwacht: dollar meestal zwakker.'],
  [/unemployment rate|claimant/i,'Werkloosheid. Hoger dan verwacht: valuta meestal zwakker.'],
- [/employment change|jolts|adp/i,'Banencijfer. Meer banen dan verwacht: valuta meestal sterker.'],
+ [/employment change|jolts|job openings|adp/i,'Banencijfer. Meer banen dan verwacht: valuta meestal sterker.'],
+ [/earnings|wage|labor cost|labour cost/i,'Lonen. Snellere loonstijging zorgt voor inflatie: valuta meestal sterker.'],
  [/gdp/i,'Economische groei. Hoger dan verwacht: valuta meestal sterker.'],
- [/pmi|ism/i,'Inkoopmanagers-index. Boven 50 groeit de economie, onder 50 krimpt ze.'],
- [/retail sales/i,'Winkelverkopen: geven aan hoeveel consumenten uitgeven.'],
+ [/empire state|philly fed|richmond|kansas city|chicago pmi/i,'Regionale index van de Amerikaanse industrie. Hoger dan verwacht: dollar iets sterker.'],
+ [/pmi|ism/i,'Inkoopmanagers-index. Boven 50 groeit de economie, onder 50 krimpt ze. Hoger dan verwacht: valuta meestal sterker.'],
+ [/retail sales|retail/i,'Winkelverkopen: hoeveel consumenten uitgeven. Hoger dan verwacht: valuta meestal sterker.'],
+ [/personal spending|personal income|household spending|consumer spending/i,'Uitgaven of inkomen van huishoudens. Hoger dan verwacht: valuta meestal iets sterker.'],
+ [/industrial production|manufacturing production|factory orders|durable goods|machinery orders|manufacturing sales/i,'Productie of bestellingen van de industrie. Hoger dan verwacht: valuta meestal iets sterker.'],
+ [/capital expenditure|capex|business investment/i,'Investeringen van bedrijven. Hoger dan verwacht laat een sterke economie zien: valuta meestal iets sterker.'],
+ [/building|housing|home sales|house price|hpi|construction|mortgage|starts/i,'Woningmarkt of bouw. Hoger dan verwacht: valuta meestal iets sterker. Meestal weinig invloed.'],
  [/minutes|notulen/i,'Notulen van de vorige rentevergadering. Kan hints geven over de volgende stap.'],
- [/rentebesluit|rate|monetary policy|policy statement|cash rate/i,'Rentebesluit. Hogere rente of strengere woorden: valuta meestal sterker.'],
+ [/rentebesluit|cash rate|bank rate|overnight rate|policy rate|funds rate|refinancing rate|deposit facility|monetary policy statement|policy statement/i,'Rentebesluit. Hogere rente of strengere woorden: valuta meestal sterker.'],
  [/speaks|testif|press conference|hearing|persconferentie/i,'Toespraak of hoorzitting. Eén zin kan de koers plots laten bewegen.'],
- [/confidence|sentiment|zew|ifo/i,'Vertrouwen van consumenten of bedrijven.'],
- [/trade balance|current account/i,'Handelsbalans: verschil tussen export en import.'],
- [/crude oil/i,'Olievoorraden VS. Raakt vooral de Canadese dollar.']
+ [/confidence|sentiment|zew|ifo|gfk|consumer climate|tankan|nfib|outlook/i,'Vertrouwen van consumenten of bedrijven. Hoger dan verwacht: valuta meestal iets sterker.'],
+ [/trade balance|current account|exports|imports/i,'Handelsbalans: verschil tussen export en import. Meer export dan verwacht: valuta meestal iets sterker.'],
+ [/money supply|m3|m2|private loans|lending|credit/i,'Hoeveel geld er in omloop is of wordt geleend. Meestal weinig invloed op de koers.'],
+ [/budget|borrowing|fiscal|debt/i,'Overheidsfinanciën. Meestal weinig invloed, tenzij het heel anders uitvalt dan verwacht.'],
+ [/auction/i,'Veiling van staatsleningen. Weinig vraag kan de rente en de valuta laten schommelen.'],
+ [/bulletin|financial stability|report|review/i,'Rapport van een centrale bank of overheid. Meestal weinig invloed, tenzij er een onverwachte waarschuwing in staat.'],
+ [/summit|meeting|election|vote|g7|g20|opec/i,'Overleg of stemming. Alleen invloed als er onverwacht nieuws uitkomt.'],
+ [/crude oil|natural gas/i,'Voorraden olie of gas in de VS. Raakt vooral de Canadese dollar.'],
+ [/leading index|leading indicators/i,'Voorspeller van de economie voor de komende maanden. Meestal weinig invloed.'],
+ [/beige book/i,'Rapport van de Fed over hoe het gaat met de economie per regio. Meestal weinig invloed.'],
+ [/business climate|economic expectations|cbi/i,'Verwachtingen of vertrouwen van bedrijven of economen. Hoger dan verwacht: valuta meestal iets sterker.'],
+ [/corporate profits/i,'Winst van bedrijven. Meestal weinig invloed op de koers.'],
+ [/fpc statement/i,'Verklaring van de Bank of England over de stabiliteit van banken. Meestal weinig invloed.'],
+ [/payrolls/i,'Banencijfer. Meer banen dan verwacht: valuta meestal sterker.'],
+ [/inventories|wholesale/i,'Voorraden of groothandel. Meestal weinig invloed.']
 ];
-const expl=n=>{for(const [r,t] of EXPL)if(r.test(n))return t;return ''};
+const BYIMP={h:'Belangrijk cijfer: kan de koers flink bewegen, vooral als het afwijkt van de verwachting.',m:'Kan de koers wat laten bewegen, vooral als het sterk afwijkt van de verwachting.',l:'Meestal weinig invloed op de koers.'};
+
+const expl=(n,imp)=>{let t='';for(const [r,x] of EXPL)if(r.test(n)){t=x;break}if(!t)t=BYIMP[imp]||'';if(/^(final|revised)/i.test(n))t='Definitief cijfer: wijkt meestal weinig af van de eerste schatting. '+t;else if(/^(prelim|flash|advance)/i.test(n))t='Eerste schatting. '+t;return t};
 const HOLD=()=>4*36e5,DAY=24*36e5;
 
 let evs=[],ses=[];
@@ -369,7 +392,7 @@ function fmtDur(ms){const s=Math.max(0,Math.floor(ms/1000));const d=Math.floor(s
 const when=(t,now)=>{const m=Math.round((t-now)/6e4);return m<60?'over '+m+' min':localYmd(t)===localYmd(new Date(now))?'om '+hm(t):DAYN[t.getDay()]+' '+hm(t)};
 const holdTxt=()=>'4 uur';
 
-function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||expl(e.name);const extra=[x,e.fc?'Forex Factory: '+e.fc:''].filter(Boolean).join(' · ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
+function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||(e.info?'':expl(e.name,e.imp));const extra=[x,e.fc?'Forex Factory: '+e.fc:''].filter(Boolean).join(' · ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
 function renderLists(){
  const now=Date.now(),td=localYmd(new Date());
  const t=evs.filter(e=>rel(e)&&localYmd(e.t)===td);
