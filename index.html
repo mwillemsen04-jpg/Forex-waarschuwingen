@@ -43,6 +43,8 @@ nav a .badge{margin-left:8px;width:9px;height:9px;border-radius:50%;display:inli
 button:focus-visible,nav a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
 .hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:18px}
+:root:not(.ready) .status,:root:not(.ready) #bdg,:root:not(.ready) .banner{visibility:hidden}
+:root:not(.ready) .status{transition:none}
 .status{border-radius:24px;padding:26px;color:#0f172a;display:flex;flex-direction:column;gap:8px;min-height:300px;transition:background .4s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .status::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.22)}
 .status.ok{background:linear-gradient(150deg,#d4f5e2,#a9e9c6)}
@@ -538,10 +540,11 @@ const ffInfo=()=>{$('ffinfo').textContent=(ff.items||[]).length+' berichten inge
 const ro=new ResizeObserver(renderStrip);ro.observe($('rows'));
 build();ffInfo();renderRates();renderCoins();
 $('mp').addEventListener('click',ev=>{const b=ev.target.closest('[data-p]');if(!b)return;mper=+b.dataset.p;renderCoins()});
-fetch('fx.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.dates)&&j.dates.length>1&&j.rates&&['USD','GBP','JPY','AUD','CAD','CHF','NZD'].every(c=>Array.isArray(j.rates[c])&&j.rates[c].length===j.dates.length)){fx=j;renderCoins()}}).catch(()=>{});
+const P540=fetch('fx.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.dates)&&j.dates.length>1&&j.rates&&['USD','GBP','JPY','AUD','CAD','CHF','NZD'].every(c=>Array.isArray(j.rates[c])&&j.rates[c].length===j.dates.length)){fx=j;renderCoins()}}).catch(()=>{});
 
-fetch('rates.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.banks)){j.banks.forEach(n=>{const b=BANKS.find(x=>x.k===n.k);if(b&&typeof n.r==='number'){b.r=n.r;b.txt=n.txt?String(n.txt):'';b.last=String(n.last||b.last)}});BANKS.sort((a,b)=>b.r-a.r);if(j.at)$('rat').textContent=String(j.at);renderRates();renderCoins()}}).catch(()=>{});
-fetch('ff.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.items)&&j.items.length){ff={at:String(j.at||''),items:j.items.filter(x=>x&&typeof x.title==='string'&&typeof x.date==='string')};ffInfo();all()}}).catch(()=>{});
+const P542=fetch('rates.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.banks)){j.banks.forEach(n=>{const b=BANKS.find(x=>x.k===n.k);if(b&&typeof n.r==='number'){b.r=n.r;b.txt=n.txt?String(n.txt):'';b.last=String(n.last||b.last)}});BANKS.sort((a,b)=>b.r-a.r);if(j.at)$('rat').textContent=String(j.at);renderRates();renderCoins()}}).catch(()=>{});
+const P543=fetch('ff.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&Array.isArray(j.items)&&j.items.length){ff={at:String(j.at||''),items:j.items.filter(x=>x&&typeof x.title==='string'&&typeof x.date==='string')};ffInfo();all()}}).catch(()=>{});
+Promise.allSettled([P540,P542,P543]).then(()=>document.documentElement.classList.add('ready'));setTimeout(()=>document.documentElement.classList.add('ready'),3000);
 renderLists();renderStrip();show();tick();setInterval(tick,1000);
 }
 </script>
