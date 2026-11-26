@@ -194,7 +194,7 @@ a{color:var(--blue)}
 <!-- WEEK -->
 <section class="view" id="v-week">
   <div class="set" style="justify-content:space-between;margin-bottom:14px">
-    <h2 style="margin:0">Komende 3 weken</h2>
+    <h2 style="margin:0">Komende dagen</h2>
     <div class="seg" id="wf"><button type="button" data-f="h" aria-pressed="false">Alleen hoog</button><button type="button" data-f="m" aria-pressed="true">Hoog en middel</button><button type="button" data-f="l" aria-pressed="false">Alles</button></div>
   </div>
   <div id="next"></div>
@@ -244,7 +244,7 @@ a{color:var(--blue)}
     </section>
     <section class="panel">
       <h2>Over deze pagina</h2>
-      <p class="note" style="margin-top:0">Alles wordt vanzelf bijgewerkt: elke ochtend rond 06:17 en op werkdagen ook 's middags rond 16:47 (in de zomer een uur later). Het nieuws en de feestdagen komen van Forex Factory, de rentes van de centrale banken zelf en de koersen van de ECB. De middagupdate zorgt dat de koersen van die dag en een rentebesluit van die middag er meteen in staan. Daarnaast staan de vaste data van de Fed, de BLS, de ECB, de Bank of England en de Bank of Japan er tot eind 2027 in, zodat je ook weken vooruit kunt kijken. Na 2027 komen alle data gewoon via Forex Factory binnen, dan zie je 1 à 2 weken vooruit. De BoJ heeft geen vaste tijd, dus daar staat een ruime marge.</p>
+      <p class="note" style="margin-top:0">Alles wordt vanzelf bijgewerkt: elke ochtend rond 06:17 en op werkdagen ook 's middags rond 16:47 (in de zomer een uur later). Al het nieuws, alle rentebesluiten en feestdagen komen van Forex Factory: verandert daar een datum of tijd, dan verandert die hier ook. Forex Factory kijkt deze week en volgende week vooruit. De rentes komen van de centrale banken zelf en de koersen van de ECB. De middagupdate zorgt dat de koersen van die dag en een rentebesluit van die middag er meteen in staan. De BoJ heeft geen vaste tijd, dus daar staat een ruime marge.</p>
       <p class="note">Onverwacht nieuws (een plotselinge uitspraak, geopolitiek) zit er niet in. Dat zie je alleen live, bijvoorbeeld op <a href="https://www.forexfactory.com/news">Forex Factory News</a>.</p>
       <p class="note">Dit is een hulpmiddel, geen financieel advies.</p>
     </section>
@@ -255,15 +255,7 @@ a{color:var(--blue)}
 <script>
 {
 const NY='America/New_York',LON='Europe/London',FRA='Europe/Berlin',TOK='Asia/Tokyo';
-const D={
- fomc:['2026-12-09','2027-01-27','2027-03-17','2027-04-28','2027-06-09','2027-07-28','2027-09-15','2027-11-17'],
- cpi:['2026-12-10','2027-01-13','2027-02-11','2027-03-10','2027-04-13','2027-05-12','2027-06-10','2027-07-14','2027-08-11','2027-09-14','2027-10-14','2027-11-10','2027-12-10'],
- nfp:['2026-12-04','2027-01-08','2027-02-05','2027-03-05','2027-04-02','2027-05-07','2027-06-04','2027-07-02','2027-08-06','2027-09-03','2027-10-08','2027-11-05','2027-12-03'],
- ecb:['2026-12-17','2027-02-04','2027-03-18','2027-04-29','2027-06-10','2027-07-22','2027-09-09','2027-10-28','2027-12-16'],
- boe:['2026-12-17','2027-02-04','2027-03-18','2027-04-29','2027-06-17','2027-07-29','2027-09-16','2027-11-04','2027-12-16'],
- boj:['2026-12-18','2027-01-22','2027-03-18','2027-04-28','2027-06-11','2027-07-22','2027-09-22','2027-10-29','2027-12-17']
-};
-const HOL={'2026-11-26':'Thanksgiving: Amerikaanse markten dicht, weinig handel','2026-11-27':'Dag na Thanksgiving: VS sluit vroeg (19:00 NL), dunne markt','2026-12-24':'Kerstavond: VS sluit vroeg, dunne markt','2026-12-25':'Kerst: bijna geen handel','2026-12-31':'Oudejaarsdag: dunne markt','2027-01-01':'Nieuwjaar: bijna geen handel','2027-01-18':'Martin Luther King Day: VS dicht','2027-02-15':'Presidents Day: VS dicht','2027-03-26':'Goede Vrijdag: veel markten dicht','2027-05-31':'Memorial Day: VS dicht','2027-06-18':'Juneteenth: VS dicht','2027-07-05':'Independence Day: VS dicht','2027-09-06':'Labor Day: VS dicht','2027-11-25':'Thanksgiving: VS dicht','2027-11-26':'Dag na Thanksgiving: VS sluit vroeg','2027-12-24':'Kerst: bijna geen handel','2027-12-31':'Oudejaarsdag: dunne markt'};
+const HOL={};
 
 const BANKS=[
  {c:'AUD',b:'Reserve Bank of Australia',k:'RBA',r:4.85,last:'+0,25 op 3 nov'},
@@ -344,17 +336,6 @@ let evs=[],ses=[];
 function build(){
  evs=[];ses=[];
  const add=(ymd,tz,h,m,name,cur,imp,x={})=>evs.push(Object.assign({t:zt(ymd,tz,h,m),name,cur,imp,info:imp==='l'},x));
- D.fomc.forEach(s=>{add(s,NY,14,0,'Fed-rentebesluit','USD','h');add(s,NY,14,30,'Persconferentie Fed','USD','h');add(addDays(s,21),NY,14,0,'Notulen Fed','USD','m')});
- D.cpi.forEach(s=>add(s,NY,8,30,'Inflatie VS (CPI)','USD','h'));
- D.nfp.forEach(s=>add(s,NY,8,30,'Banenrapport VS (NFP)','USD','h'));
- D.ecb.forEach(s=>{add(s,FRA,14,15,'ECB-rentebesluit','EUR','h');add(s,FRA,14,45,'Persconferentie ECB','EUR','h')});
- D.boe.forEach(s=>add(s,LON,12,0,'Bank of England-rentebesluit','GBP','h'));
- D.boj.forEach(s=>add(s,TOK,12,0,'Bank of Japan-rentebesluit','JPY','h',{wb:150,wa:90,bk:'BoJ',note:'Geen vaste tijd: meestal tussen 3:30 en 6:00 NL-tijd'}));
- add('2026-12-08','Australia/Sydney',14,30,'Reserve Bank of Australia-rentebesluit','AUD','h',{bk:'RBA'});
- add('2026-12-09',NY,10,0,'Bank of Canada-rentebesluit','CAD','h',{bk:'BoC'});
- add('2026-12-10','Europe/Zurich',9,30,'Zwitserse Nationale Bank-rentebesluit','CHF','h',{bk:'SNB'});
- ['2026-12-09','2027-02-10','2027-03-17','2027-05-05'].forEach(s=>add(s,'Pacific/Auckland',14,0,'Reserve Bank of New Zealand-rentebesluit','NZD','h',{bk:'RBNZ'}));
- evs.forEach(e=>{if(!e.bk){if(e.name==='Fed-rentebesluit')e.bk='Fed';if(e.name==='ECB-rentebesluit')e.bk='ECB';if(e.name==='Bank of England-rentebesluit')e.bk='BoE'}});
  const today=localYmd(new Date());
  for(let k=-1;k<=22;k++){
   const s=addDays(today,k),w=wd(s),hol=HOL[s];
@@ -376,10 +357,8 @@ function build(){
   const imp=it.impact==='High'?'h':it.impact==='Medium'?'m':it.impact==='Low'?'l':null;
   if(isNaN(t)||!imp||!it.country)return;
   const fc=[it.forecast?'verwacht '+it.forecast:'',it.previous?'vorige '+it.previous:''].filter(Boolean).join(', ');
-  const dup=evs.find(e=>e.cur===it.country&&e.imp==='h'&&Math.abs(e.t-t)<6e4&&!e.ff);
-  if(dup&&imp==='h'){if(fc)dup.fc=fc;return}
   const RB={USD:['Fed',/Federal Funds Rate/],EUR:['ECB',/Main Refinancing Rate|Deposit Facility Rate/],GBP:['BoE',/Official Bank Rate/],JPY:['BoJ',/BOJ Policy Rate/],AUD:['RBA',/Cash Rate/],CAD:['BoC',/Overnight Rate/],CHF:['SNB',/SNB Policy Rate/],NZD:['RBNZ',/Official Cash Rate/]}[it.country];
-  const bk=RB&&RB[1].test(it.title)&&!evs.some(e=>e.bk===RB[0]&&Math.abs(e.t-t)<864e5)?RB[0]:undefined;
+  const bk=RB&&RB[1].test(it.title)?RB[0]:undefined;
   evs.push({t,name:String(it.title),cur:String(it.country),imp,ff:1,fc,bk});
  });
  evs.sort((a,b)=>a.t-b.t);
@@ -437,7 +416,7 @@ function renderCoins(){
 }
 function renderRates(){
  const now=Date.now(),max=5;
- $('rates').innerHTML=BANKS.map(b=>{const nx=evs.find(e=>e.bk===b.k&&+e.t>now);const up=/^\+/.test(b.last);return `<div class="rt"><span class="c">${b.c}<small>${b.k}</small></span><span class="bar"><i style="width:${Math.max(1.5,b.r/max*100)}%"></i></span><span class="v">${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'}</span><span class="info">Laatste besluit: <span class="${up?'up':'eq'}">${b.last}</span> · Volgende: ${nx?DAYN[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]+' '+nx.t.getFullYear()+' om '+hm(nx.t):'datum nog niet bekend'}</span></div>`}).join('');
+ $('rates').innerHTML=BANKS.map(b=>{const nx=evs.find(e=>e.bk===b.k&&+e.t>now);const up=/^\+/.test(b.last);return `<div class="rt"><span class="c">${b.c}<small>${b.k}</small></span><span class="bar"><i style="width:${Math.max(1.5,b.r/max*100)}%"></i></span><span class="v">${b.txt||b.r.toLocaleString('nl-NL',{minimumFractionDigits:2})+'%'}</span><span class="info">Laatste besluit: <span class="${up?'up':'eq'}">${b.last}</span> · Volgende: ${nx?DAYN[nx.t.getDay()]+' '+nx.t.getDate()+' '+MON[nx.t.getMonth()]+' '+nx.t.getFullYear()+' om '+hm(nx.t):'staat nog niet in de kalender van Forex Factory'}</span></div>`}).join('');
  $('corr').innerHTML='<div class="grid2">'+CORR.map((g,i)=>`<div class="grp"><h3><span>${i+1}</span>${g.t}</h3><div class="chips">${g.p.map(p=>`<span class="pill">${p}</span>`).join('')}</div><p>${g.d}</p><p class="ex">${g.ex}</p></div>`).join('')+'</div><p class="note">Vuistregel: heb je al een trade open, kijk dan of je nieuwe paar in dezelfde groep zit. Zo ja, neem een kleinere positie of kies een paar uit een andere groep.</p>';
 }
 function renderStrip(){
@@ -462,7 +441,7 @@ function tick(){
  const td=localYmd(nowD);
  if(HOL[td]){$('hol').style.display='block';$('hol').textContent='Vandaag: '+HOL[td]}else $('hol').style.display='none';
  const ffMax=Math.max(0,...(ff.items||[]).map(x=>+new Date(x.date)||0));
- if(ffMax<now){$('ffold').style.display='block';$('ffold').textContent='Het nieuws van Forex Factory is nog niet bijgewerkt voor deze week. Herlaad de pagina straks; de vaste rentebesluiten en cijfers staan er wel in.'}else $('ffold').style.display='none';
+ if(ffMax<now){$('ffold').style.display='block';$('ffold').textContent='Het nieuws van Forex Factory is nog niet bijgewerkt voor deze week. Herlaad de pagina straks.'}else $('ffold').style.display='none';
  const R=evs.filter(rel),H=HOLD();
  const stop=R.find(e=>e.imp==='h'&&(([a,b])=>now>=a&&now<=b)(win(e)));
  const med=R.find(e=>e.imp==='m'&&(([a,b])=>now>=a&&now<=b)(win(e)));
@@ -482,7 +461,7 @@ function tick(){
  $('stp').textContent='Alle valutaparen';
  $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
  if(nextH){$('cdl').textContent='Tot '+L(nextH)+' · '+DAYN[nextH.t.getDay()]+' '+nextH.t.getDate()+' '+MON[nextH.t.getMonth()]+' '+hm(nextH.t)+(nextH.cur!=='ALL'?' · '+nextH.cur:'');$('cd').textContent=fmtDur(+nextH.t-now)}
- else{$('cdl').textContent='Geen hoog nieuws gepland';$('cd').textContent='--:--:--'}
+ else{$('cdl').textContent='Nog geen hoog nieuws in de kalender van Forex Factory';$('cd').textContent='--:--:--'}
  alerts(R,now);
  if(nowD.getSeconds()===0){renderLists();if(nowD.getHours()===0&&nowD.getMinutes()===0){build();renderStrip()}}
 }
