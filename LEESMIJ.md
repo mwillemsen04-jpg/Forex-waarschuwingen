@@ -36,7 +36,7 @@ De pagina staat daarna op:
 
 ## Hoe het daarna werkt
 
-Alles gaat vanzelf, elke ochtend rond 06:17 en op werkdagen ook rond 16:47 (in de zomer een uur later):
+Alles gaat vanzelf, elk uur rond 23 minuten over het hele uur:
 
 - **Nieuws en feestdagen** komen van Forex Factory (deze week en volgende week), met de verwachte en vorige waarde, in dezelfde kleuren als Forex Factory: rood = hoog, oranje = middel, geel = laag.
 - **Rentes** worden opgehaald bij de bronnen zelf: Fed en ECB via FRED, de Bank of England, de Bank of Canada,
@@ -50,6 +50,6 @@ Alles gaat vanzelf, elke ochtend rond 06:17 en op werkdagen ook rond 16:47 (in d
 
 ## Meldingen op je telefoon
 
-Het script plant elke ochtend en middag via ntfy.sh een pushmelding in, 1 minuut voor elk hoog nieuwsbericht.
+Het script plant elk uur via ntfy.sh een pushmelding in, 1 minuut voor elk hoog nieuwsbericht.
 Installeer de gratis app ntfy en abonneer je op de naam die op de pagina bij Info staat.
 In `sent.json` houdt het script bij welke meldingen al zijn ingepland, zodat je er geen dubbele krijgt.
