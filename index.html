@@ -66,6 +66,7 @@ button:focus-visible,nav a:focus-visible{outline:3px solid var(--blue);outline-o
 .cdh .dot{border:2px solid rgba(255,255,255,.8);width:12px;height:12px}
 .cdn{font-size:13px;font-weight:600;opacity:.85;line-height:1.4}
 .cdr b{font-size:clamp(20px,3vw,26px)!important}
+.cdx{grid-column:1/-1;font-size:13px;line-height:1.45;margin-top:4px;opacity:.8}
 .cd b{font-size:clamp(30px,4.5vw,42px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
 .strip{padding:20px;display:flex;flex-direction:column}
 .strip h2{font-size:17px}
@@ -514,7 +515,7 @@ function tick(){
  $('stp').textContent='Alle valutaparen';
  $('bdg').style.background={ok:'var(--grn)',let:'var(--pink)',stop:'var(--red)',dicht:'var(--soft)'}[cls];
  $('cds').innerHTML=[['h','Hoog nieuws'],['m','Middel nieuws'],['l','Laag nieuws']].map(([k,lab])=>{const e=R.find(x=>x.imp===k&&!x.info&&+x.t>now);
-  return `<div class="cdr ${k}"><div class="cdh"><span class="dot ${k}"></span>${lab}</div>${e?`<div class="cdn">${esc(e.name)}${e.cur!=='ALL'?' ('+esc(e.cur)+')':''}, ${DAYL[e.t.getDay()]} ${e.t.getDate()} ${MON[e.t.getMonth()]} om ${hm(e.t)}</div><b>${fmtDur(+e.t-now)}</b>`:'<div class="cdn">Staat nog niet in de kalender van Forex Factory.</div><b>--:--:--</b>'}</div>`}).join('');
+  return `<div class="cdr ${k}"><div class="cdh"><span class="dot ${k}"></span>${lab}</div>${e?`<div class="cdn">${esc(e.name)}${e.cur!=='ALL'?' ('+esc(e.cur)+')':''}, ${DAYL[e.t.getDay()]} ${e.t.getDate()} ${MON[e.t.getMonth()]} om ${hm(e.t)}</div><b>${fmtDur(+e.t-now)}</b><div class="cdx">${esc(expl(e.name,e.imp,e.cur))}</div>`:'<div class="cdn">Staat nog niet in de kalender van Forex Factory.</div><b>--:--:--</b>'}</div>`}).join('');
  alerts(R,now);
  if(nowD.getSeconds()===0){renderLists();if(nowD.getHours()===0&&nowD.getMinutes()===0){build();renderStrip()}}
 }
