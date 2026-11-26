@@ -200,7 +200,7 @@ def schedule_alerts(send=ntfy):
         except Exception:
             continue
         key = x["title"] + "|" + x["country"] + "|" + x["date"] + "|1m"
-        alert = t - datetime.timedelta(minutes=1)
+        alert = t - datetime.timedelta(seconds=75)  # 15 seconden speling, zodat hij rond 1 minuut van tevoren binnen is
         if t < now - datetime.timedelta(days=2):
             continue
         if key in sent:
