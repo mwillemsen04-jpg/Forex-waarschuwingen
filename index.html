@@ -306,6 +306,31 @@ const hm=dt=>pad(dt.getHours())+':'+pad(dt.getMinutes());
 const DAYN=['zo','ma','di','wo','do','vr','za'],DAYL=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
 const MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
 const EXPL=[
+ [/daylight saving|dst/i,'De klok gaat in dit land een uur vooruit of achteruit. De tijden van de markten en het nieuws verschuiven dan een uur.'],
+ [/tariff/i,'Dit gaat over importheffingen. Strengere heffingen maken de markt onrustig en kunnen de valuta van het land dat geraakt wordt zwakker maken.'],
+ [/economic projections|dot plot/i,'Hier laat de Fed zien waar de leden de rente de komende jaren verwachten. Als ze een hogere rente verwachten dan de markt, wordt de dollar meestal sterker.'],
+ [/votes/i,'Dit laat zien hoe de leden van de centrale bank gestemd hebben over de rente. Als meer leden een hogere rente wilden dan verwacht, wordt de valuta meestal sterker.'],
+ [/rate statement|monetary policy assessment|monetary policy summary/i,'Dit is de uitleg bij het rentebesluit. Als de bank strenger klinkt dan verwacht, wordt de valuta meestal sterker.'],
+ [/outlook report|monetary policy report|economic bulletin|summary of opinions|summary of deliberations|economic forecasts/i,'Dit is een rapport van een centrale bank waarin ze uitlegt hoe ze naar de economie en de rente kijkt. Het kan hints geven over het volgende rentebesluit.'],
+ [/business outlook survey/i,'Dit is een enquête van de Bank of Canada onder bedrijven over hoe zij de economie zien. Als bedrijven positiever zijn dan verwacht, wordt de Canadese dollar meestal iets sterker.'],
+ [/stress test/i,'Hier wordt getest of banken een crisis aankunnen. Het heeft meestal weinig invloed, tenzij banken slecht scoren.'],
+ [/jackson hole|symposium/i,'Dit is een jaarlijkse bijeenkomst van centrale bankiers. Toespraken hier kunnen de koers flink bewegen.'],
+ [/challenger|job cuts/i,'Dit laat zien hoeveel banen bedrijven in de VS schrappen. Als het er meer zijn dan verwacht, wordt de dollar meestal iets zwakker.'],
+ [/unemployment change/i,'Dit laat zien hoeveel werklozen er bij zijn gekomen of af zijn gegaan. Als er meer werklozen bij komen dan verwacht, wordt de valuta meestal zwakker.'],
+ [/employment cost|productivity|unit labor|unit labour/i,'Dit gaat over de kosten van personeel of hoe productief werknemers zijn. Hogere loonkosten dan verwacht zorgen voor inflatie, en dan wordt de valuta meestal sterker.'],
+ [/capacity utilization/i,'Dit laat zien hoeveel van de fabrieken in gebruik is. Een hoger cijfer dan verwacht wijst op een sterke economie. Het heeft meestal weinig invloed.'],
+ [/vehicle sales/i,'Dit is het aantal verkochte auto's. Het heeft meestal weinig invloed op de koers.'],
+ [/tic long-term|foreign securities purchases|securities purchases/i,'Dit laat zien hoeveel buitenlanders in het land beleggen. Als het meer is dan verwacht, wordt de valuta meestal iets sterker. Het heeft meestal weinig invloed.'],
+ [/currency report/i,'Hier beoordeelt de Amerikaanse overheid of andere landen hun valuta kunstmatig goedkoop houden. Het heeft meestal weinig invloed.'],
+ [/foreign currency reserves|sight deposits/i,'Dit laat zien of de Zwitserse Nationale Bank de frank heeft gekocht of verkocht. Grote veranderingen kunnen wijzen op ingrijpen op de valutamarkt.'],
+ [/rpi|shop price/i,'Dit is een andere maat voor de prijsstijging in het Verenigd Koninkrijk. Als het hoger uitvalt dan verwacht, wordt het pond meestal iets sterker.'],
+ [/ippi|rmpi|sppi|input|output price/i,'Dit zijn de prijzen die bedrijven betalen en vragen, een voorbode van inflatie. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/brc retail|retail sales monitor/i,'Dit laat zien hoeveel er in Britse winkels is verkocht. Als het hoger uitvalt dan verwacht, wordt het pond meestal iets sterker.'],
+ [/index of services|services output|tertiary industry|services index/i,'Dit laat zien hoe het gaat met de dienstensector, het grootste deel van de economie. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/gdt price|dairy|commodity prices/i,'Dit zijn de prijzen van zuivel en grondstoffen die Nieuw-Zeeland of Australië verkoopt. Hogere prijzen maken de NZD of AUD meestal iets sterker.'],
+ [/visitor arrivals|tourist/i,'Dit is het aantal toeristen dat het land bezoekt. Het heeft meestal weinig invloed op de koers.'],
+ [/economy watchers|barometer|kof|sentix|ivey|businessnz|procure/i,'Dit is een index die laat zien hoe bedrijven de economie zien. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/cash earnings/i,'Dit laat zien hoe snel de lonen in Japan stijgen. Snellere loonstijging maakt een renteverhoging waarschijnlijker, en dan wordt de yen meestal sterker.'],
  [/holiday/i,'Het is een feestdag, dus er wordt weinig gehandeld in deze valuta en de spreads kunnen breder zijn.'],
  [/inflation expectations/i,'Dit laat zien hoeveel mensen of bedrijven verwachten dat de prijzen gaan stijgen. Als het hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
  [/core pce|pce price/i,'Dit is de inflatie die de Fed het belangrijkst vindt. Als het hoger uitvalt dan verwacht, wordt de dollar meestal sterker.'],
@@ -315,26 +340,26 @@ const EXPL=[
  [/non-farm|nfp|banenrapport/i,'Dit is het Amerikaanse banenrapport, een van de grootste koersbewegers. Als er meer banen bij komen dan verwacht, wordt de dollar meestal sterker.'],
  [/unemployment claims|jobless|werkloosheidsaanvragen/i,'Dit is het aantal nieuwe werkloosheidsaanvragen in de VS. Als het er meer zijn dan verwacht, wordt de dollar meestal zwakker.'],
  [/unemployment rate|claimant/i,'Dit is de werkloosheid. Als die hoger uitvalt dan verwacht, wordt de valuta meestal zwakker.'],
- [/employment change|jolts|job openings|adp|payrolls/i,'Dit cijfer laat zien hoeveel banen erbij komen. Als het er meer zijn dan verwacht, wordt de valuta meestal sterker.'],
+ [/employment change|employment trends|jolts|job openings|adp|payrolls/i,'Dit cijfer laat zien hoeveel banen erbij komen. Als het er meer zijn dan verwacht, wordt de valuta meestal sterker.'],
  [/earnings|wage|labor cost|labour cost/i,'Dit laat zien hoe snel de lonen stijgen. Snellere loonstijging zorgt voor inflatie, en dan wordt de valuta meestal sterker.'],
  [/gdp/i,'Dit is de economische groei. Als die hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
  [/empire state|philly fed|richmond|kansas city|chicago pmi/i,'Dit is een index van de industrie in een deel van de VS. Als die hoger uitvalt dan verwacht, wordt de dollar meestal iets sterker.'],
  [/pmi|ism/i,'Dit is de inkoopmanagersindex. Boven de 50 groeit de economie en onder de 50 krimpt ze. Als het cijfer hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
  [/retail sales|retail/i,'Dit laat zien hoeveel consumenten in winkels uitgeven. Als het hoger uitvalt dan verwacht, wordt de valuta meestal sterker.'],
  [/personal spending|personal income|household spending|consumer spending/i,'Dit gaat over de uitgaven of het inkomen van huishoudens. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
- [/industrial production|manufacturing production|factory orders|durable goods|machinery orders|manufacturing sales/i,'Dit laat zien hoeveel de industrie produceert of aan bestellingen binnenkrijgt. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
- [/capital expenditure|capex|business investment/i,'Dit laat zien hoeveel bedrijven investeren. Als het hoger uitvalt dan verwacht, wijst dat op een sterke economie en wordt de valuta meestal iets sterker.'],
+ [/industrial production|manufacturing production|factory orders|durable goods|machinery orders|machine tool|manufacturing sales/i,'Dit laat zien hoeveel de industrie produceert of aan bestellingen binnenkrijgt. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
+ [/capital expenditure|capital spending|capex|business investment/i,'Dit laat zien hoeveel bedrijven investeren. Als het hoger uitvalt dan verwacht, wijst dat op een sterke economie en wordt de valuta meestal iets sterker.'],
  [/building|housing|home sales|house price|hpi|construction|mortgage|starts/i,'Dit gaat over de woningmarkt of de bouw. Het heeft meestal weinig invloed, maar een hoger cijfer dan verwacht maakt de valuta soms iets sterker.'],
  [/fpc/i,'Dit komt van een commissie van de Bank of England die let op de veiligheid van banken, niet op de rente. Het heeft meestal weinig invloed.'],
  [/minutes|notulen|meeting accounts|accounts/i,'Dit zijn de notulen van de vorige rentevergadering. Ze kunnen laten zien wat de centrale bank hierna van plan is.'],
- [/rentebesluit|cash rate|bank rate|overnight rate|policy rate|funds rate|refinancing rate|deposit facility|monetary policy statement|policy statement/i,'Dit is een rentebesluit, een van de grootste koersbewegers. Als de rente omhoog gaat of de bank strenger klinkt, wordt de valuta meestal sterker.'],
+ [/rentebesluit|cash rate|bank rate|overnight rate|policy rate|funds rate|refinancing rate|deposit facility|monetary policy statement|policy statement|fomc statement/i,'Dit is een rentebesluit, een van de grootste koersbewegers. Als de rente omhoog gaat of de bank strenger klinkt, wordt de valuta meestal sterker.'],
  [/speaks|testif|press conference|hearing|persconferentie/i,'Hier geeft iemand van een centrale bank of de overheid een toespraak. Eén onverwachte zin kan de koers plots laten bewegen.'],
  [/beige book/i,'Dit is een rapport van de Fed over hoe het met de economie gaat in de verschillende regio\'s van de VS. Het heeft meestal weinig invloed.'],
  [/business climate|economic expectations|cbi/i,'Dit laat zien hoe bedrijven of economen over de economie denken. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
  [/confidence|sentiment|zew|ifo|gfk|consumer climate|tankan|nfib|outlook/i,'Dit laat zien hoeveel vertrouwen consumenten of bedrijven hebben. Als het hoger uitvalt dan verwacht, wordt de valuta meestal iets sterker.'],
- [/corporate profits/i,'Dit is de winst van bedrijven. Het heeft meestal weinig invloed op de koers.'],
+ [/corporate profits|operating profits|profits/i,'Dit is de winst van bedrijven. Het heeft meestal weinig invloed op de koers.'],
  [/trade balance|current account|exports|imports/i,'Dit is het verschil tussen wat een land uitvoert en invoert. Als de uitvoer groter is dan verwacht, wordt de valuta meestal iets sterker.'],
- [/money supply|m3|m2|private loans|lending|credit/i,'Dit laat zien hoeveel geld er in omloop is of wordt geleend. Het heeft meestal weinig invloed op de koers.'],
+ [/money supply|money stock|m4|m3|m2|private loans|lending|credit|mortgage approvals|ltro/i,'Dit laat zien hoeveel geld er in omloop is of wordt geleend. Het heeft meestal weinig invloed op de koers.'],
  [/budget|borrowing|fiscal|debt/i,'Dit gaat over de geldzaken van de overheid. Het heeft meestal weinig invloed, tenzij het heel anders uitvalt dan verwacht.'],
  [/auction/i,'Hier verkoopt de overheid staatsleningen. Als er weinig vraag naar is, kunnen de rente en de valuta gaan schommelen.'],
  [/bulletin|financial stability|report|review/i,'Dit is een rapport van een centrale bank of de overheid. Het heeft meestal weinig invloed, tenzij er een onverwachte waarschuwing in staat.'],
@@ -345,7 +370,7 @@ const EXPL=[
 ];
 const BYIMP={h:'Dit is belangrijk nieuws dat de koers flink kan bewegen, vooral als het anders uitvalt dan verwacht.',m:'Dit nieuws kan de koers wat laten bewegen, vooral als het sterk afwijkt van de verwachting.',l:'Dit nieuws heeft meestal weinig invloed op de koers.'};
 
-const expl=(n,imp)=>{let t='';for(const [r,x] of EXPL)if(r.test(n)){t=x;break}if(!t)t=BYIMP[imp]||'';if(/^(final|revised)/i.test(n))t='Dit is het definitieve cijfer, dat meestal weinig afwijkt van de eerste schatting. '+t;else if(/^(prelim|flash|advance)/i.test(n))t='Dit is een eerste schatting. '+t;return t};
+const expl=(n,imp,cur)=>{let t='';for(const [r,x] of EXPL)if(r.test(n)){t=x;break}if(!t)t=BYIMP[imp]||'';if(/^(final|revised)/i.test(n))t='Dit is het definitieve cijfer, dat meestal weinig afwijkt van de eerste schatting. '+t;else if(/^(prelim|flash|advance)/i.test(n))t='Dit is een eerste schatting. '+t;if(cur==='CNY')t='Dit is Chinees nieuws. China is een grote klant van Australië en Nieuw-Zeeland, dus het raakt vooral de AUD en de NZD. '+t;return t};
 const HOLD=()=>4*36e5,DAY=24*36e5;
 
 let evs=[],ses=[];
@@ -386,7 +411,7 @@ function fmtDur(ms){const s=Math.max(0,Math.floor(ms/1000));const d=Math.floor(s
 const when=(t,now)=>{const m=Math.round((t-now)/6e4);return m<60?'over '+m+' min':localYmd(t)===localYmd(new Date(now))?'om '+hm(t):DAYN[t.getDay()]+' '+hm(t)};
 const holdTxt=()=>'4 uur';
 
-function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||(e.info?'':expl(e.name,e.imp));const extra=[x,e.fc?'Forex Factory '+e.fc+'.':''].filter(Boolean).join(' ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
+function li(e,now){const [a,b]=win(e),past=b<now,cur=now>=a&&now<=b&&e.imp!=='l';const x=e.note||(e.info?'':expl(e.name,e.imp,e.cur));const extra=[x,e.fc?'Forex Factory '+e.fc+'.':''].filter(Boolean).join(' ');return `<li class="${past?'past':''} ${cur?'cur':''}"><span class="t">${hm(e.t)}</span><span class="n"><span class="dot ${e.info?'i':e.imp}"></span>${esc(e.name)}${e.cur!=='ALL'?`<span class="tag">${esc(e.cur)}</span>`:''}${extra?`<small>${esc(extra)}</small>`:''}</span></li>`}
 function renderLists(){
  const now=Date.now(),td=localYmd(new Date());
  const t=evs.filter(e=>rel(e)&&localYmd(e.t)===td);
